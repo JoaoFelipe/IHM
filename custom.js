@@ -74,4 +74,34 @@ $(document).ready(function(){
         }
     });
     //map.setOptions({restrictedExtent: extent});
+
+    $(function() {
+    	
+    	var source = [];
+    	for (var i = 0; i < airports.length; i++) {
+    		var airport = airports[i];
+    		source.push({
+    			value: airport[2],
+    			label_template: '<div class="airport_item">' +
+               	  '  <div class="airport">' +
+                  '    <div class="code">[0]</div>' +
+                  '    <div class="name">[1]</div>' +
+                  '  </div>' +
+                  '  <div class="city">[2]</div>' +
+                  '  <div class="clear"></div>' +
+                  '</div>',
+                label_value: airport,
+                search: airport[0] + ' ' + airport[1] + ' ' + airport[2]
+    		});
+    	}
+    	console.log(source);
+    	
+
+	    $("#my_ac").autocomplete({
+	    	html: true,
+	    	autoFocus: true,
+	        source: source,
+	        minLength: 1
+	    }).data( "autocomplete" );
+	});
 });

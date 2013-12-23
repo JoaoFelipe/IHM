@@ -94,3 +94,50 @@ li:not(.active):not(.disable) a.payment-tab:hover {
 	height: 500px;
 	width: 100%;	
 }
+
+
+
+.airport_item div {
+	display: inline-block;
+	font-size: 12px;
+}
+
+.airport_item .code {
+	min-width: 40px;
+	padding-left: 5px;
+	color: gray;
+}
+
+.airport_item .airport {
+	display: block;
+}
+
+.airport_item .city {
+	float: right;
+	color: gray;
+}
+
+.airport_item .clear {
+	clear: both;
+}
+
+.ui-widget-content {
+	background: white;
+	z-index: 1000;
+}
+
+.ui-autocomplete {
+    max-height: 350px;
+    overflow-y: auto;
+    /* prevent horizontal scrollbar */
+    overflow-x: hidden;
+    /* add padding to account for vertical scrollbar */
+    padding-right: 20px;
+    width: 470px;
+}
+/* IE 6 doesn't support max-height
+ * we use height instead, but this forces the menu to always be this tall
+ */
+* html .ui-autocomplete {
+    height: 350px;
+}
