@@ -14,7 +14,7 @@
 }
 
 .tab-page-inner {
-	padding: 30px 60px 30px 60px;
+	padding: 15px 60px 30px 60px;
 }
 
 li.disable a {
@@ -140,4 +140,139 @@ li:not(.active):not(.disable) a.payment-tab:hover {
  */
 * html .ui-autocomplete {
     height: 350px;
+}
+
+.searchAirport {
+	/*width: 100px;*/
+	text-align: left;
+	display: inline-block;
+}
+
+.searchAirport input{
+	padding-left: 5px;
+	width: 194px;
+	margin: 0;
+	padding-top: 0;
+	position: relative;
+	top: -5px;
+	display: none;
+	border-radius: 5px;
+}
+
+.searchAirport .fakeInput {
+	padding-left: 5px;
+	border: 2px solid #ccc;
+	height: 51px;
+	font-size: 16px;
+	width: 194px;
+	border-radius: 5px;
+	line-height: 1;
+	padding: 7px;
+}
+
+.searchAirport .fakeInput:hover {
+	cursor: text;
+}
+
+.searchAirport .fakeInput .city {
+	font-size: 18px;
+}
+.searchAirport .fakeInput .code {
+	height: 12px;
+	font-size: 12px;
+	display: block;
+	color: gray;
+	text-align: right;
+}
+
+.searchFlight {
+	display: block;
+}
+
+.datepicker {
+	border: 2px solid #ccc;
+	border-radius: 5px;
+	position: relative;
+	top: -5px;
+	padding-left: 10px;
+	width: 170px;
+}
+
+.selectdate {
+	display: inline;
+}
+
+
+.selectdate span {
+	color: gray;
+	position: relative;
+	left: -40px;
+	top: -3px;
+}
+
+.searchFlights {
+	display: inline-block;
+}
+
+.sidebutton {
+	height: 40px;
+	padding: 5px 10px !important;
+	position: relative;
+	top: -5px;
+
+}
+
+.removeflight {
+	visibility: hidden;
+	position: relative;
+	left: -13px;
+}
+
+.jumbotron {
+	text-align: left;
+}
+
+#add-roundtrip {
+	visibility: hidden;
+}
+
+.searchFlight .warning {
+	border-color: #a94442;
+}
+
+.search-alert {
+	display: none;
+}
+
+.searchFlights {
+	margin-top: 15px;
+}
+
+@media (min-width: 768px) {
+	.tab-page-inner {
+		padding: 15px 15px 30px 15px;
+	}
+}
+
+@media (max-width: 767px) {
+	.searchFlight {
+		width: 194px;
+	}
+	.datepicker {
+		margin-top: 5px; 
+		width: 194px;
+	}	
+
+	.selectdate span {
+		left: 75px;
+		top: -50px;
+	}
+
+	.tab-page-inner {
+		padding: 15px 15px 30px 15px;
+	}
+
+	.searchFlights {
+		display: block;
+	}
 }
