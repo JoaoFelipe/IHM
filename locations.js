@@ -67,6 +67,7 @@ airports = {
 	"JOI":  ['JOI', 'Aeroporto Lauro Carneiro de Loyola', 'Joinville', -26.22460, -48.79531],
 	"CCM":  ['CCM', 'Aeroporto Diomicio Freitas', 'Forquilinha', -28.72582, -49.42129],
 	"MAE":  ['MAE', 'Aeroporto Campo de Marte', 'São Paulo', -23.50900, -46.63461],
+	"GRU":  ['GRU', 'Aeroporto Internacional de Guarulhos', 'São Paulo', -23.4599, -46.4879],
 	"CGH":  ['CGH', 'Aeroporto de Congonhas/São Paulo', 'São Paulo', -23.62811, -46.65583],
 	"SJK":  ['SJK', 'Aeroporto de São José dos Campos', 'São José dos Campos', -23.22758, -45.86159],
 	"AJU":  ['AJU', 'Aeroporto Internacional de Aracaju', 'Aracaju', -10.98421, -37.06790],
@@ -93,31 +94,31 @@ locations = {
 	'Goiânia'              : ['Goiânia', -16.690, -49.251],
 	'Imperatriz'           : ['Imperatriz', -5.5207, -47.4785],
 	'São Luís'             : ['São Luís', -2.539, -44.278],
-	'Várzea Grande'        : ['Várzea Grande', -15.650, -56.131],
+	'Várzea Grande'        : ['Várzea Grande', -15.650, -56.131],
 	'Cuiabá'               : ['Cuiabá',-15.602, -56.083],
 	'Campo Grande'         : ['Campo Grande',-20.920, -54.32],
-	'Corumbá'              : ['Corumbá', -19.0087, -57.6491],
+	'Corumbá'              : ['Corumbá', -19.0087, -57.6491],
 	'Ponta Porã'           : ['Ponta Porã', -22.533, -55.720],
 	'Uberlândia'           : ['Uberlândia', -18.915, -48.274],
 	'Belo Horizonte'       : ['Belo Horizonte', -19.886, -43.953],
 	'Monte Claros'         : ['Monte Claros', -16.7309, -43.8556],
 	'Poços de Caldas'      : ['Poços de Caldas', -21.771, -46.545],
 	'Uberaba'              : ['Uberaba', -19.750, -47.935],
-	'Barbacena'            : ['Barbacena', -21.2231, -43.7689],
-	'Altamira'             : ['Altamira',-19.558, -43.568],
+	'Barbacena'            : ['Barbacena', -21.2231, -43.7689],
+	'Altamira'             : ['Altamira',-19.558, -43.568],
 	'Curitiba'             : ['Curitiba', -25.480, -49.294],
 	'São José dos Pinhais' : ['São José dos Pinhais',-25.532, -49.194],
-	'Foz do Iguaçu'        : ['Foz do Iguaçu', -25.474, -54.541],
+	'Foz do Iguaçu'        : ['Foz do Iguaçu', -25.474, -54.541],
 	'Londrina'             : ['Londrina', -23.3079, -51.169],
 	'João Pessoa'          : ['João Pessoa', -7.177, -34.879],
 	'Belém'                : ['Belém', -1.390, -48.453],
 	'Marabá'               : ['Marabá', -5.382, -49.135],
 	'Paraiapebas'          : ['Paraiapebas',-6.0697, -49.9031],
-	'Santarém'             : ['Santarém', -2.441, -54.702],
-	'Bayeux'               : ['Bayeux',-7.1256, -34.9309],
+	'Santarém'             : ['Santarém', -2.441, -54.702],
+	'Bayeux'               : ['Bayeux',-7.1256, -34.9309],
 	'João Pessoa'          : ['João Pessoa',-7.179, -34.884],
 	'Campina Grande'       : ['Campina Grande',-7.225, -35.873],
-	'Petrolina'            : ['Petrolina',-9.3910, -40.5023],
+	'Petrolina'            : ['Petrolina',-9.3910, -40.5023],
 	'Recife'               : ['Recife', -8.053, -34.926],
 	'Fernando de Noronha'  : ['Fernando de Noronha', -3.85554, -32.41982],
 	'Parnaíba'             : ['Parnaíba', -2.908, -41.776],
@@ -127,9 +128,9 @@ locations = {
 	'Cabo Frio'            : ['Cabo Frio',-22.691, -42.034],
 	'Rio de Janeiro'       : ['Rio de Janeiro', -22.926, -43.23],
 	'Natal'                : ['Natal', -5.794, -35.196],
-	'Parnamirim'           : ['Parnamirim', -5.925, -35.268],
+	'Parnamirim'           : ['Parnamirim', -5.925, -35.268],
 	'Porto Alegre'         : ['Porto Alegre', -30.026, -51.153],
-	'Bagé'                 : ['Bagé',-31.3328, -54.097],
+	'Bagé'                 : ['Bagé',-31.3328, -54.097],
 	'Pelotas'              : ['Pelotas',-31.771, -52.334],
 	'Porto Velho'          : ['Porto Velho', -8.766, -63.896],
 	'Ji-Paraná'            : ['Ji-Paraná', -10.8787, -61.9310],
@@ -140,10 +141,20 @@ locations = {
 	'Forquilinha'          : ['Forquilinha', -28.7466, -49.4793],
 	'Aracaju'              : ['Aracaju', -10.918, -37.067],
 	'São Paulo'            : ['São Paulo', -23.553, -46.615],
-	'São José dos Campos'  : ['São José dos Campos', -23.196, -45.886],
+	'São José dos Campos'  : ['São José dos Campos', -23.196, -45.886],
 	'Palmas'               : ['Palmas', -10.212, -48.392],
 	'Niterói'              : ['Niterói', -22.884, -43.097],
 }
+
+airlines = [
+	['Air France'],
+	['Gol'],
+	['Azul'],
+	['American Airlines'],
+	['Delta Airlines'],
+	['TAM'],
+	['Avianca'],
+]
 
 
 function getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {
@@ -263,4 +274,147 @@ function autoCompleteList() {
 	    });
 	}
 	return source;
+}
+
+function estimatePrice(airport1, airport2) {
+	var distance = getDistanceFromLatLonInKm(airport1[3], airport1[4], airport2[3], airport2[4]);
+	return 30.0 + distance * 0.15;
+}
+
+function estimateTime(airport1, airport2) {
+	var distance = getDistanceFromLatLonInKm(airport1[3], airport1[4], airport2[3], airport2[4]);
+	return (distance) / 13.3 + 40;
+}
+
+function priceByDate(date, price) {
+	var weekday = {
+		0: 1.3,
+		1: 1.2,
+		2: 1.1,
+		3: 1.0,
+		4: 1.2,
+		5: 1.3,
+		6: 1.1
+	}
+
+	var month = {
+		0: 1.0,
+		1: 1.1,
+		2: 1.1,
+		3: 1.0,
+		4: 1.0,
+		5: 1.0,
+		6: 1.1,
+		7: 1.1,
+		8: 1.1,
+		9: 1.0,
+		10: 1.0,
+		11: 1.1,
+	}
+	
+
+	return price * weekday[date.getDay()] * month[date.getMonth()];
+
+}
+
+function dayFlights(date, airport1, airport2) {
+	var distance = getDistanceFromLatLonInKm(airport1[3], airport1[4], airport2[3], airport2[4]);
+	var price = priceByDate(date, estimatePrice(airport1, airport2));
+	var nonStopTime = estimateTime(airport1, airport2);
+	var oneStopTime = nonStopTime;
+	var twoSStopTime = nonStopTime;
+	var nonStopStops = [];
+	var oneStopStops = [];
+	var twoStopStops = [];
+	
+	var subname = airport1[1].replace('Aeroporto ', '').replace('Internacional ', '');
+	stops = [];
+	for (var i = 0; i < 40 && stops.length < 2; i++){
+		for (var j = 0; j < 40 && stops.length < 2; j++){
+			for (var k = 0; k < 40 && stops.length < 2; k++){
+				var code = (subname[i % subname.length] + subname[j % subname.length] + subname[k % subname.length]).toUpperCase();
+				if (code != airport2[0] && airports[code] != undefined && $.inArray(code, stops) == -1){
+					stops.push(code);
+				}
+			}
+		}	
+	}
+	if (stops.length > 0){
+		oneStopTime = estimateTime(airport1, airports[stops[0]]) + estimateTime(airports[stops[0]], airport2) + 20;
+		oneStopTime = (oneStopTime > 3 * nonStopTime) ? 3 * nonStopTime : oneStopTime;
+		oneStopStops = [stops[0]];
+	//	console.log(airport1[0], stops[0], airport2[0], oneStopTime);
+	}
+	if (stops.length > 1){
+		twoStopTime = estimateTime(airport1, airports[stops[0]]) + estimateTime(airports[stops[0]], airports[stops[1]]) + estimateTime(airports[stops[1]], airport2) + 40;
+		twoStopTime = (twoStopTime > 6 * nonStopTime) ? 6 * nonStopTime : twoStopTime;
+		twoStopStops = stops;
+	//	console.log(airport1[0], stops[0], stops[1], airport2[0], twoStopTime);
+	}
+	//console.log(distance, price, nonStopTime);
+	var timePrice = {
+		5 : 1.0,
+		6 : 1.01,
+		7 : 1.02,
+		8 : 1.03,
+		9 : 1.07,
+		10 : 1.08,
+		11 : 1.1,
+		12 : 1.05,
+		13 : 1.04,
+		14 : 1.1,
+		15 : 1.08,
+		16 : 1.09,
+		17 : 1.1,
+		18 : 1.06,
+		19 : 1.03,
+		20 : 1.04,
+		21 : 1.03,
+		22 : 1.08,
+		23 : 1.1
+	};
+
+	var result = [];
+
+	for (var i = 6; i < 25; i++){
+		for (var j = 0; j < 2; j++) {
+			var delta = 0;
+			var duration = 0;
+			if (j + i % 4 == 0) {
+				delta = airport1[3] + airport2[3];
+				duration = airport1[4] + airport2[4];
+			} else if (j + i % 4 == 1) {
+				delta = airport1[3] + airport2[4];
+				duration = airport1[3] + airport2[3];
+			} else if (j + i % 4 == 2) {
+				delta = airport1[4] + airport2[3];
+				duration = airport1[3] + airport2[4];
+			} else if (j + i % 4 == 3) {
+				delta = airport1[4] + airport2[4];
+				duration = airport1[4] + airport2[3];
+			} 
+			delta = (delta + date.getDay()) % 60;
+			duration = -duration % 30;
+			if (i == 24 && delta >= 0) {
+				delta = -delta;
+			}
+			var stopCount = Math.round(Math.abs(delta  + i + 2 * j)*10) % 3;
+			var airline = Math.round(Math.abs(delta  + i * 2  + j)*10) % airlines.length;
+			var semidelta = Math.abs(delta) / 60.0;
+			while (Math.floor(semidelta) < 1 && semidelta != 0) {
+				semidelta *= 10;
+			}
+
+			var departure = new Date(date.getFullYear(), date.getMonth(), date.getDate(), i, Math.round(delta),0,0);
+			var flightPrice = timePrice[i-1]*parseFloat("1.0"+Math.floor(semidelta)) * price;
+			var flightDuration = [nonStopTime, oneStopTime, twoStopTime][stopCount] + duration;
+			var arrival = new Date(departure);
+			var stopList = [nonStopStops, oneStopStops, twoStopStops][stopCount];
+			arrival.setMinutes(arrival.getMinutes() + flightDuration);
+			result.push([departure, flightPrice, stopCount, stopList, flightDuration, airlines[airline][0], arrival]);
+		}
+		
+	}	
+	return result;
+	
 }

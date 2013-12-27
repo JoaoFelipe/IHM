@@ -148,7 +148,7 @@ li:not(.active):not(.disable) a.payment-tab:hover {
 	display: inline-block;
 }
 
-.searchAirport input{
+.searchAirport input {
 	padding-left: 5px;
 	width: 194px;
 	margin: 0;
@@ -157,6 +157,11 @@ li:not(.active):not(.disable) a.payment-tab:hover {
 	top: -5px;
 	display: none;
 	border-radius: 5px;
+	height: 51px !important;
+}
+
+input.datepicker {
+	height: 51px !important;
 }
 
 .searchAirport .fakeInput {
@@ -266,6 +271,10 @@ li:not(.active):not(.disable) a.payment-tab:hover {
 	.selectdate span {
 		left: 75px;
 		top: -50px;
+	}
+
+	.removeflight {
+		left: -27px;
 	}
 
 	.tab-page-inner {
