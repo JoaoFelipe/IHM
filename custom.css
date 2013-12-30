@@ -91,11 +91,12 @@ li:not(.active):not(.disable) a.payment-tab:hover {
 }
 
 .openmap {
-	height: 500px;
+	height: 250px;
 	width: 100%;	
 }
 
 
+/* search */
 
 .airport_item div {
 	display: inline-block;
@@ -269,7 +270,7 @@ input.datepicker {
 	}	
 
 	.selectdate span {
-		left: 75px;
+		left: 160px;
 		top: -50px;
 	}
 
@@ -284,4 +285,287 @@ input.datepicker {
 	.searchFlights {
 		display: block;
 	}
+}
+
+
+/* Date */
+
+#date-tab h3 {
+	float: left;
+}
+
+.skip {
+	padding: 5px 10px !important;
+	float: right;
+	margin: 15px 0 ;
+}
+
+.clear {
+	clear: both;
+}
+
+.date-alert {
+	display: none;
+}
+
+.bestdateselect .title {
+	border: 1px solid #ccc;
+	padding: 0 20px;
+	border-top-left-radius: 10px !important;
+	border-top-right-radius: 10px !important;
+}
+
+.bestdateselect.warning .title {
+	border: 1px solid #a94442;
+	background-color: #f2dede;
+}
+
+.bestdateselect .title .code {
+	color: gray;
+}
+
+.bestdateselect .title .code:before {
+	content: "(";
+}
+
+.bestdateselect .title .code:after {
+	content: ")";
+}
+
+.bestdateselect .options {
+	border: 1px solid #ccc;
+	border-top: 0px;
+	box-sizing: content-box;
+	border-bottom-left-radius: 10px !important;
+	border-bottom-right-radius: 10px !important;
+}
+
+.bestdateselect.warning .options {
+	border: 1px solid #a94442;
+}
+
+.bestdateselect .options input {
+	display: none;
+}
+
+.bestdateselect .options label:hover {
+	cursor: pointer;
+}
+
+
+.bestdateselect {
+	margin-bottom: 15px;
+}
+
+.bestdateselect .options .price:before {
+	content: "R$ "
+}
+
+@media (min-width: 768px) {
+
+	.bestdateselect .options .option {
+		display: inline-block;
+		width: 13.3%;
+		margin-top: 10px;
+		box-sizing: content-box;
+		border: none;
+		margin: 10px 3px 0 3px;
+
+	}
+
+	.bestdateselect .options label {
+		text-align: center;
+		font-size: 12px;
+		line-height: 1.3;
+		width: 100%;
+		box-sizing: content-box;
+		padding: 5px 0;
+
+		border-radius: 5px;
+
+	}
+
+	.bestdateselect .options span {
+		box-sizing: content-box;
+
+	}
+
+	input[type="radio"]:checked + label {
+	    border: 3px solid #44a942;
+	}
+
+	input[type="radio"]:not(checked) + label {
+	    border: 3px solid rgba(0,0,0,0);
+	}
+	
+	input[type="radio"]:not(checked) + label:hover {
+	    border: 3px solid #e9e942;
+	}
+
+	.bestdateselect .options .weekday {
+		display: block;
+		font-size: 16px;
+		
+	}
+
+	.bestdateselect .options .date {
+		display: block;
+		color: gray;
+	}
+
+	.bestdateselect .options .price {
+		display: block;
+		margin-top: 5px;
+		color: #a94442;
+	}
+
+	.bestdateselect .options .min {
+		color: #44a942;
+	}
+
+	.bestdateselect .title div {
+		display: inline-block;
+	}
+
+
+	.bestdateselect .title div {
+		display: inline-block;
+	}
+
+	.bestdateselect .title .date {
+		float: right;
+	}
+
+	.bestdateselect .title .to:before {
+		margin: 0 20px;
+		content: "->";
+	}
+}
+
+@media (max-width: 767px) {
+	.bestdateselect .title .from:before {
+		content: "Origem: ";
+		color: gray;
+	}
+	.bestdateselect .title .to:before {
+		content: "Destino: ";
+		color: gray;
+	}
+	.bestdateselect .title .date:before {
+		content: "Data buscada: ";
+		color: gray;
+	}
+
+	.bestdateselect .options .option {
+		display: block;
+		
+		margin: 0 15px;
+		position: relative;
+
+	}
+
+	.bestdateselect .options label {
+		padding: 0 5px;
+		font-size: 14px;
+		width: 100%;
+		border-radius: 5px;
+
+	}
+
+	input[type="radio"]:checked + label {
+	    border: 3px solid #44a942;
+	}
+
+	input[type="radio"]:not(checked) + label {
+	    border: 3px solid rgba(0,0,0,0);
+	}
+	
+	input[type="radio"]:not(checked) + label:hover {
+	    border: 3px solid #e9e942;
+	}
+
+	.bestdateselect .options .weekday {
+		font-size: 16px;
+		
+	}
+
+	.bestdateselect .options .date {
+		color: gray;
+	}
+
+	.bestdateselect .options .price {
+		color: #a94442;
+		float: right;
+		padding-top: 3px;
+	}
+
+	.bestdateselect .options .min {
+		color: #44a942;
+	}
+
+	.bestdateselect .options .date:before {
+		content: "(";
+	}
+
+	.bestdateselect .options .date:after {
+		content: ")";
+	}
+}
+
+/* sideinfo */
+
+.sideinfo {
+	display: none;
+}
+
+.sideinfo li .code {
+	display: none;
+}
+
+.sideinfo li .city {
+	display: inline-block;
+}
+
+.sideinfo li .from {
+	display: inline-block;
+}
+
+.sideinfo li .to {
+	display: inline-block;
+}
+
+
+.sideinfo li .pricedate {
+	display: block;
+}
+
+.sideinfo li .date {
+	float: right;
+}
+
+.sideinfo li .price:before {
+	content: "R$ ";
+}
+
+
+.sideinfo li .to:before {
+	margin: 0 5px;
+	content: "->";
+}
+
+.sideinfo ul {
+    list-style-type: none;
+    padding: 0 15px;
+}
+
+.sideinfo li {
+	margin-bottom: 7px;
+}
+
+.sideinfo .total-price {
+	padding: 0 15px;
+}
+
+.sideinfo .total-price:before {
+	content: "R$ ";
 }

@@ -294,7 +294,7 @@ function priceByDate(date, price) {
 		3: 1.0,
 		4: 1.2,
 		5: 1.3,
-		6: 1.1
+		6: 1.0
 	}
 
 	var month = {
@@ -417,4 +417,55 @@ function dayFlights(date, airport1, airport2) {
 	}	
 	return result;
 	
+}
+
+function days_between(date1, date2) {
+
+    // The number of milliseconds in one day
+    var ONE_DAY = 1000 * 60 * 60 * 24
+
+    // Convert both dates to milliseconds
+    var date1_ms = date1.getTime()
+    var date2_ms = date2.getTime()
+
+    // Calculate the difference in milliseconds
+    var difference_ms = Math.abs(date1_ms - date2_ms)
+
+    // Convert back to days and return
+    return Math.round(difference_ms/ONE_DAY)
+
+}
+
+function to2char(num) {
+	return (((num + "").length == 1)? "0" : "") + num;
+}
+
+function dateToStr(date) {
+	return to2char(date.getDate()) + '/' 
+		+ to2char(date.getMonth() + 1) + '/'
+		+ (date.getYear() + 1900);
+}
+
+function strToDate(str) {
+	return new Date(str.replace( /(\d{2})\/(\d{2})\/(\d{4})/, "$2/$1/$3"));
+}
+
+function weekday(date) {
+	return {
+		0: 'Domingo',
+		1: 'Segunda',
+		2: 'Terça',
+		3: 'Quarta',
+		4: 'Quinta',
+		5: 'Sexta',
+		6: 'Sábado'
+	}[date.getDay()];
+}
+
+function priceToStr(price) {
+	return price.toFixed(2);
+}
+
+function strToPrice(str) {
+	return parseFloat(str);
 }

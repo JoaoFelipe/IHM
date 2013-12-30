@@ -46,7 +46,7 @@ function loadMarkers(map, proj, markers, codes) {
     }
 }
 
-var proj, map, markers;
+var proj, map, markers, selectedFlights;
 
 function reloadMarkers(){
 	markers.clearMarkers();
@@ -133,23 +133,151 @@ function validateSearch() {
 }
 
 
+function fillDateSearch(current_number) {
+	var this_flight = selectedFlights[current_number];
+	var each_day = [];
+	var date = this_flight['date'];
+	var current_date = new Date( date.replace( /(\d{2})\/(\d{2})\/(\d{4})/, "$2/$1/$3") );
+
+
+	var today = new Date();
+	today.setHours(0,0,0,0);
+
+	var minimum_day = -Math.min(days_between(today, current_date), 3);
+
+	var minimum_overall = 100000000;
+	for (var i = minimum_day; i < minimum_day + 7; i++) {
+		var minimum = 100000000;
+		var selected = [];
+		var to = '';
+		var from = '';
+		var current_date = new Date( date.replace( /(\d{2})\/(\d{2})\/(\d{4})/, "$2/$1/$3") );
+		current_date.setDate(current_date.getDate() + i);
+		for (var from_code_index in this_flight['from_code']) {
+			var from_code = this_flight['from_code'][from_code_index];
+			for (var to_code_index in this_flight['to_code']) {
+				var to_code = this_flight['to_code'][to_code_index];
+				var day_flights = dayFlights(current_date, airports[from_code], airports[to_code]);
+				for (var flight_index in day_flights) {
+					var flight = day_flights[flight_index];
+					if (flight[1] < minimum) {
+						minimum = flight[1];
+						selected = flight;
+						from = from_code;
+						to = to_code;
+					}
+					if (flight[1] < minimum_overall) {
+						minimum_overall = flight[1];
+					}
+				}
+			}
+		}
+		each_day.push([current_date, from, to, minimum, selected]);
+	}
+	var result_html = 
+			'<div class="bestdateselect" id="dateforflight'+ current_number +'">' +
+			'	<div class="title">' +
+			'		<div class="from">' +
+        	'			<span class="city">'+this_flight['from_city']+'</span>' +
+        	'			<span class="code">'+this_flight['from_code'].join(', ')+'</span>' +
+			'		</div>' +
+			'		<div class="to">' +
+        	'			<span class="city">'+this_flight['to_city']+'</span>' +
+        	'			<span class="code">'+this_flight['to_code'].join(', ')+'</span>' +
+			'		</div>' +
+			'		<span class="date">'+this_flight['date']+'</span>' +
+			'	</div>' +
+			'   <div class="options">';
+
+	var current_price = 0;
+	for (var i = 0; i < each_day.length; i++) {
+		if ((dateToStr(each_day[i][0])==this_flight['date'])) {
+			current_price = each_day[i][3];
+		}
+		result_html +=
+			'<div class="option">' +
+			'	<input class="datelabel" type="radio" '+((dateToStr(each_day[i][0])==this_flight['date'])? ' checked="checked" ' : '')+' id="radioforflight'+current_number+'_'+i+'" name="radioforflight'+current_number+'" />' +
+			'	<label for="radioforflight'+current_number+'_'+i+'">' +
+			'		<span class="weekday">'+weekday(each_day[i][0])+'</span>' +
+			'		<span class="date">'+dateToStr(each_day[i][0])+'</span>' +
+			'		<span class="price '+ ((each_day[i][3] <= minimum_overall)? 'min' : '') + '">'+priceToStr(each_day[i][3])+'</span>' +
+			'	</label>' +
+			'</div>';
+	}
+	result_html += '</div></div>'
+	$('.selectdates').append(result_html);
+
+	var side_html = 
+			'<li id="infoforflight'+ current_number +'">' +
+			'	<div class="from">' +
+        	'		<span class="city">'+this_flight['from_city']+'</span>' +
+        	'		<span class="code">'+this_flight['from_code'].join(', ')+'</span>' +
+			'	</div>' +
+			'	<div class="to">' +
+        	'		<span class="city">'+this_flight['to_city']+'</span>' +
+        	'		<span class="code">'+this_flight['to_code'].join(', ')+'</span>' +
+			'	</div>' +
+			'	<div class="pricedate">' +
+			'		<span class="price">'+priceToStr(current_price)+'</span>' +
+			'		<span class="date">'+this_flight['date']+'</span>' +
+			'	</div>' +
+			'</li>';
+	$('.sideinfo ul').append(side_html);
+}
+
+function updateDatePrice() {
+	var total = 0.0;
+	$(".bestdateselect input[type='radio']:checked").each(function(k, item){
+		total += strToPrice($(item).siblings('label').find('.price').text());
+	});
+	$('.total-price').text(priceToStr(total));
+}
+
+function generateDateSearch() {
+	$('.selectdates').html('');
+	$('.sideinfo ul').html('');
+	for (var num in selectedFlights) {
+		fillDateSearch(num);
+	}
+	updateDatePrice();
+	$('.sideinfo').show();
+}
+
+function validateDate() {
+	var result = true;
+	var field_error = false;
+	var date_error = false;
+	var last_date = null;
+	$(".bestdateselect input[type='radio']:checked").each(function(k, item){
+		var date = strToDate($(item).siblings('label').find('.date').text());
+		if (last_date == null) {
+			last_date = date;
+		} else {
+			new_date = date;
+			if (new_date < last_date) {
+				$(item).parents('.bestdateselect').addClass('warning');
+				date_error = true;
+				result = false;
+			}
+			last_date = new_date;
+		}
+	});
+
+	if (!result) {
+		var errors = [];
+		if (date_error) {
+			errors.push("Os voos devem estar ordenados por data.");
+		}
+		$('.date-alert').html(errors.join("<br>"));
+		$('.date-alert').show();
+	} else {
+		$('.date-alert').hide();
+	}
+	return result;
+}
 
 $(document).ready(function(){
-	$('.masthead .nav-tabs a').click(function(){
-		if ($(this).parent().hasClass('disable')){
-			return false;
-		}
-		setActive(this.className);
-		
-	})	
-
-	$('#search-next').click(function(){
-		if (validateSearch()) {
-			$('.masthead .nav-tabs a.date-tab').parent().removeClass('disable');
-			$('.masthead .nav-tabs a.ticket-tab').parent().removeClass('disable');
-			setActive('date-tab')
-		}
-	})
+	
 
 
     proj = new OpenLayers.Projection("EPSG:4326");
@@ -176,7 +304,32 @@ $(document).ready(function(){
         }
     });
     //map.setOptions({restrictedExtent: extent});
+    /*
+    selectedFlights = {
+    	0 : {
+    		'from_city': 'Niterói',
+			'to_city': 'São Paulo',
+			'from_code': ['SDU', 'GIG'],
+			'to_code': ['MAE', 'GRU', 'CGH'],
+			'date': '31/12/2013'
+    	}, 
+    	1 : {
+			'from_city': 'São Paulo',
+    		'to_city': 'Niterói',
+			'from_code': ['MAE', 'GRU', 'CGH'],
+			'to_code': ['SDU', 'GIG'],
+			'date': '03/01/2014'
+    	}
 
+    };
+	generateDateSearch()
+	
+
+    $('.masthead .nav-tabs a.date-tab').parent().removeClass('disable');
+	$('.masthead .nav-tabs a.ticket-tab').parent().removeClass('disable');
+	
+	setActive('date-tab');
+	*/
     $(function() {
     	
 	    $(".searchInput").livequery(function(){
@@ -257,6 +410,17 @@ $(document).ready(function(){
 			});
 		});
 
+		$(".datelabel").livequery(function(){
+			$(this).change(function(){
+				var price = $(this).siblings('label').children('.price').text();
+				var date = $(this).siblings('label').children('.date').text();
+				var id = $(this).parents('.bestdateselect').attr('id').split('dateforflight')[1];
+				$('#infoforflight'+id).find('.price').text(price);
+				$('#infoforflight'+id).find('.date').text(date);
+				updateDatePrice();
+			});
+		})
+
 		$("#add-flight").click(function(){
 			var html = $('.searchFlights .searchFlight:last-child .second').html();
 			$('.searchFlights').append(
@@ -306,6 +470,66 @@ $(document).ready(function(){
 			showRemoveFlight();
 			showAddRoundTrip();
             $('.searchFlights .searchFlight:last-child .fakeInput')[0].focus();
+		});
+
+
+		$('.masthead .nav-tabs a').click(function(){
+			if ($(this).parent().hasClass('disable')){
+				return false;
+			}
+			setActive(this.className);
+			
+		});	
+
+		$('#search-next').click(function(){
+			if (validateSearch()) {
+				var number = 0;
+				selectedFlights = {};
+				$('.selectdates').html('');
+				$('.sideinfo ul').html('');
+				$('.searchFlights .searchFlight').each(function(k, item){
+					var current_number = number++;
+
+					var first_city = $(item).find('.first .city').text();
+					var first_code = $(item).find('.first .code').text();
+					var second_city = $(item).find('.second .city').text();
+					var second_code = $(item).find('.second .code').text();
+					var date = $(item).find('.datepicker').val();
+					
+					var this_flight = {
+						'from_city': first_city,
+						'to_city': second_city,
+						'from_code': first_code.split(', '),
+						'to_code': second_code.split(', '),
+						'date': date		
+					};
+
+					selectedFlights[current_number] = this_flight;
+					fillDateSearch(current_number);
+				});
+				updateDatePrice();
+				$('.sideinfo').show();
+				$('.masthead .nav-tabs a.date-tab').parent().removeClass('disable');
+				$('.masthead .nav-tabs a.ticket-tab').parent().removeClass('disable');
+				setActive('date-tab')
+			}
+		});
+
+		$('#date-tab .skip').click(function(){
+			setActive('ticket-tab');
+			generateDateSearch();
+		});
+
+		$('#date-next').click(function(){
+			if (validateDate()) {
+				$(".bestdateselect input[type='radio']:checked").each(function(k, item){
+					var id = $(this).parents('.bestdateselect').attr('id').split('dateforflight')[1];
+					selectedFlights[id]['date'] = $(item).siblings('label').find('.date').text();
+				});
+				generateDateSearch();
+				setActive('ticket-tab');
+			}
+			
 		});
 
 	});
