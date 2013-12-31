@@ -569,3 +569,149 @@ input.datepicker {
 .sideinfo .total-price:before {
 	content: "R$ ";
 }
+
+/* ticket */
+
+#ticket-tab  .tabs {
+	border: none !important;
+	font-size: 14px;
+	line-height: 1.3;
+}
+
+#ticket-tab .ui-widget-header {
+	border: none !important;
+	background: none !important;
+}
+
+#ticket-tab .ui-tabs-panel {
+	border: 1px solid #ccc !important;
+	border-radius: 5px;
+}
+
+#ticket-tab .ui-tabs-anchor {
+	font-size: 14px;
+}
+
+#ticket-tab .ui-tabs-anchor .code {
+	display: none;
+}
+
+
+
+
+#ticket-tab .ui-tabs-anchor .date {
+	margin-top: 5px;
+	color: gray;
+	font-weight: normal;
+}
+
+#ticket-tab .tabs .price:before {
+	content: "R$ ";
+}
+
+#ticket-tab .tabs .stops {
+	display: block;
+}
+
+#ticket-tab .tabs .arrival:before {
+	content: "-";
+	margin: 0 5px 0 5px;
+}
+
+#ticket-tab .tabs .arrival_airport:before {
+	content: " ";
+	margin: 0 10px;
+}
+
+
+
+
+#ticket-tab .odd {
+	background-color: white;
+}
+
+#ticket-tab .sorting_1 {
+	background-color: #fafafa;
+}
+
+#ticket-tab table, #ticket-tab thead {
+	border-radius: 5px;
+}
+
+#ticket-tab th {
+	text-align: center;
+	background-color: #dbdbdb;
+	padding: 10px 0;
+}
+
+#ticket-tab .sorting_asc {
+	background-color: #ccc;
+}
+
+#ticket-tab  table {
+	border-radius: 5px !important;
+	border-collapse: collapse !important;
+	border: none !important;
+}
+#ticket-tab table th, #ticket-tab table td { 
+	border: none !important;
+	
+
+}
+
+#ticket-tab table td { 
+	border-top: 1px solid #ccc !important;
+	background-color: #fafafa;
+}
+
+#ticket-tab table th:first-child {
+  border-radius: 5px 0 0 0 !important;
+}
+#ticket-tab table th:last-child {
+  border-radius: 0 5px 0 0 !important;
+}
+#ticket-tab table tr:last-child td:first-child {
+  border-radius: 0 0 0 5px !important;
+}
+#ticket-tab table tr:last-child td:last-child {
+  border-radius: 0 0 5px 0 !important;
+}
+
+#ticket-tab table tr:hover td { 
+	
+	background-color: #eaeaea;
+	cursor: pointer;
+}
+
+.dataTables_info {
+	margin-top: 10px;
+}
+
+.paging_full_numbers {
+	float: left;
+	margin-top: 10px;
+}
+
+#ticket-tab table img {
+	background-color: white;
+	border: 1px solid black;
+}
+
+.row_selected td {
+	background-color: #99f992 !important;
+}
+
+#ticket-tab  .skip {
+	margin: 0;
+	position: relative;
+	top: 15px;
+}
+
+#ticket-tab  label {
+	position: relative;
+	top: -20px;
+}
+
+li {
+	background-image: none !important;
+}

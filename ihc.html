@@ -8,8 +8,11 @@
     <meta name="author" content="">
     <link rel="shortcut icon" href="../../docs-assets/ico/favicon.png">
     <link href="jquery/css/ui-lightness/jquery-ui-1.10.3.custom.css" rel="stylesheet">
+    <link href="DataTables/media/css/demo_page.css" rel="stylesheet">
+    <link href="DataTables/media/css/demo_table.css" rel="stylesheet">
 
-    <title>Justified Nav Template for Bootstrap</title>
+
+    <title>Compra de passagem de avião</title>
 
     <!-- Bootstrap core CSS -->
     <link href="dist/css/bootstrap.css" rel="stylesheet">
@@ -34,7 +37,6 @@
       <div class="row">
         <div class="col-lg-9">
           <div class="masthead">
-            <h2>Compra de passagem de avião</h2>
             <ul class="nav nav-tabs nav-justified">
               <li class="active"><a href="#" class="search-tab">1 - Busca</a></li>
               <li class="disable"><a href="#" class="date-tab">2 - Data</a></li>
@@ -48,7 +50,7 @@
             <div class="tab-page" id="search-tab">
               <div class="tab-page-header search-tab"></div>
               <div class="tab-page-inner">
-                <h3>Escolha seus voos!</h1>
+                <h3>Escolha origens, destinos e datas!</h1>
                 <div class="alert alert-danger search-alert"></div>
                 <div class="searchFlights">   
                   <div class="searchFlight">
@@ -99,80 +101,6 @@
                 <div class="clear"></div>
                 <div class="alert alert-danger date-alert">teste</div>
                 <div class="selectdates">
-                  <div class="bestdateselect" id="dateforflight0">
-                    <div class="title">
-                      <div class="from">
-                        <span class="city">Niterói</span>
-                        <span class="code">SDU, GIG</span>
-                      </div>
-                      <div class="to">
-                        <span class="city">São Paulo</span>
-                        <span class="code">GRU</span>
-                      </div>
-                      <span class="date">
-                        29/12/2013
-                      </span>
-                    </div>
-                    <div class="options">
-                      <div class="option">
-                        <input type="radio" id="radioforflight0_0" name="radioforflight0" />
-                        <label for="radioforflight0_0">
-                          <span class="weekday">Quinta</span>
-                          <span class="date">26/12/2013</span>
-                          <span class="price min">R$ 90,00</span>
-                        </label>
-                      </div>
-                      <div class="option">
-                        <input type="radio" id="radioforflight0_1" name="radioforflight0" />
-                        <label for="radioforflight0_1">
-                          <span class="weekday">Sexta</span>
-                          <span class="date">27/12/2013</span>
-                          <span class="price">R$ 95,00</span>
-                        </label>
-                      </div>
-                      <div class="option">
-                        <input type="radio" id="radioforflight0_2" name="radioforflight0" />
-                        <label for="radioforflight0_2">
-                          <span class="weekday">Sábado</span>
-                          <span class="date">28/12/2013</span>
-                          <span class="price">R$ 100,00</span>
-                        </label>
-                      </div>
-                      <div class="option">
-                        <input type="radio" checked = "checked" id="radioforflight0_3" name="radioforflight0" />
-                        <label for="radioforflight0_3">
-                          <span class="weekday">Domingo</span>
-                          <span class="date">29/12/2013</span>
-                          <span class="price">R$ 94,00</span>
-                        </label>
-                      </div>
-                      <div class="option">
-                        <input type="radio" id="radioforflight0_4" name="radioforflight0" />
-                        <label for="radioforflight0_4">
-                          <span class="weekday">Segunda</span>
-                          <span class="date">30/12/2013</span>
-                          <span class="price">R$ 110,00</span>
-                        </label>
-                      </div>
-                      <div class="option">
-                        <input type="radio" id="radioforflight0_5" name="radioforflight0" />
-                        <label for="radioforflight0_5">
-                          <span class="weekday">Terça</span>
-                          <span class="date">31/12/2013</span>
-                          <span class="price">R$ 105,00</span>
-                        </label>
-                      </div>
-                      <div class="option">
-                        <input type="radio" id="radioforflight0_6" name="radioforflight0" />
-                        <label for="radioforflight0_6">
-                          <span class="weekday">Quarta</span>
-                          <span class="date">01/01/2014</span>
-                          <span class="price">R$ 102,00</span>
-                        </label>
-                      </div>
-                    </div>
-                  </div>
-
                 </div>
                 <p><a class="btn btn-sm btn-primary" id="date-next" href="#" role="button">
                   Continuar <span class="glyphicon glyphicon-chevron-right"></span>
@@ -182,9 +110,9 @@
             <div class="tab-page" id="ticket-tab">
               <div class="tab-page-header ticket-tab"></div>
               <div class="tab-page-inner">
-                <h1>Passagem!</h1>
-                <p class="lead">Cras justo odio, dapibus ac facilisis in, egestas eget quam. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet.</p>
-                <p><a class="btn btn-lg btn-success" href="#" role="button">Get started today</a></p>
+                <h3>Escolha seus voos!</h3>
+                <div class="tabscontainer">
+                </div>
               </div>
             </div>
             <div class="tab-page" id="payment-tab">
@@ -201,52 +129,23 @@
       
         <div class="col-lg-3">
           <div class="map">
-            <h2>Mapa</h2>
             <div class="openmap" id="map">
             </div>
           </div>
           <div class="sideinfo">
-            <h2>Informações</h2>
             <h3>Voos</h3>
             <ul>
-              <li> 
-                <div class="from">
-                  <span class="city">Niterói</span>
-                  <span class="code">SDU, GIG</span>
-                </div>
-                <div class="to">
-                  <span class="city">São Paulo</span>
-                  <span class="code">GRU</span>
-                </div>
-                <span class="date">
-                  29/12/2013
-                </span>
-                <span class="price">
-                  116.71
-                </span>
-              </li>
             </ul>
             <h3>Preço Total</h3>
             <span class="total-price"> 0 </span>
           </div>
         </div>
       </div>
-      <div class="row">
-        <div class="col-lg-4">
-          <h2>Heading</h2>
-          <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-          <p><a class="btn btn-primary" href="#" role="button">View details &raquo;</a></p>
-       </div>
-        <div class="col-lg-4">
-          <h2>Heading</h2>
-          <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa.</p>
-          <p><a class="btn btn-primary" href="#" role="button">View details &raquo;</a></p>
-        </div>
-      </div>
+      
 
       <!-- Site footer -->
       <div class="footer">
-        <p>&copy; Company 2013</p>
+        <p>&copy; Carlos Sarcinelli; João Pimentel; Tayane Moura 2013</p>
       </div>
 
     </div> <!-- /container -->
@@ -261,6 +160,7 @@
     <script src="jquery/js/jquery.livequery.min.js"></script>
     <script src="dist/js/bootstrap.min.js"></script>
     <script src="OpenLayers/OpenLayers.js"></script>
+    <script type="text/javascript" language="javascript" src="DataTables/media/js/jquery.dataTables.min.js"></script>
     <script src="locations.js"></script>
     <script src="custom.js"></script>
   </body>

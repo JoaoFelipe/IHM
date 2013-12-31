@@ -147,13 +147,13 @@ locations = {
 }
 
 airlines = [
-	['Air France'],
-	['Gol'],
-	['Azul'],
-	['American Airlines'],
-	['Delta Airlines'],
-	['TAM'],
-	['Avianca'],
+	['Air France', 'airline/AF.png'],
+	['Gol', 'airline/gol.jpg'],
+	['Azul', 'airline/azul.jpg'],
+	['American Airlines', 'airline/aa.png'],
+	['Delta Airlines', 'airline/delta.png'],
+	['TAM', 'airline/tam.png'],
+	['Avianca', 'airline/avianca.png'],
 ]
 
 
@@ -411,7 +411,7 @@ function dayFlights(date, airport1, airport2) {
 			var arrival = new Date(departure);
 			var stopList = [nonStopStops, oneStopStops, twoStopStops][stopCount];
 			arrival.setMinutes(arrival.getMinutes() + flightDuration);
-			result.push([departure, flightPrice, stopCount, stopList, flightDuration, airlines[airline][0], arrival]);
+			result.push([departure, flightPrice, stopCount, stopList, flightDuration, airlines[airline], arrival]);
 		}
 		
 	}	
@@ -468,4 +468,20 @@ function priceToStr(price) {
 
 function strToPrice(str) {
 	return parseFloat(str);
+}
+
+function timeToStr(time) {
+	return to2char(time.getHours())+':'+to2char(time.getMinutes());
+}
+
+function durationToStr(duration) {
+	return to2char(Math.floor(duration / 60)) + ':' + to2char(Math.floor(duration % 60));
+}
+
+
+function jsonConcat(o1, o2) {
+	for (var key in o2) {
+		o1[key] = o2[key];
+	}
+	return o1;
 }
