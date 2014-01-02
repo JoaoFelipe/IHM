@@ -1,6 +1,47 @@
 var proj, map, markers, selectedFlights, useStops=true, codes = {};
 var baby = 0, kid = 0, adult = 1;
 
+
+function testPayment() {
+	selectedFlights = {
+    	0 : {
+    		'from_city': 'Niterói',
+			'to_city': 'São Paulo',
+			'from_code': ['SDU', 'GIG'],
+			'to_code': ['MAE', 'GRU', 'CGH'],
+			'date': '31/12/2013'
+    	}, 
+    	1 : {
+			'from_city': 'São Paulo',
+    		'to_city': 'Palmas',
+			'from_code': ['MAE', 'GRU', 'CGH'],
+			'to_code': ['PMW'],
+			'date': '03/01/2014'
+    	}, 
+    	2 : {
+			'from_city': 'Palmas',
+    		'to_city': 'Niterói',
+			'from_code': ['PMW'],
+			'to_code': ['SDU', 'GIG'],
+			'date': '03/01/2014'
+    	}
+
+    };
+    useStops = false;
+    adult = 2;
+    kid = 2;
+    baby = 2;
+
+	generateDateSearch()
+	
+
+    $('.masthead .nav-tabs a.date-tab').parent().removeClass('disable');
+	$('.masthead .nav-tabs a.ticket-tab').parent().removeClass('disable');
+	$('.masthead .nav-tabs a.payment-tab').parent().removeClass('disable');
+	setPaymentTab();
+	$('.show-flight:first').click();
+}
+
 function getPrice(price) {
 	return ((by_age.baby * baby) + (by_age.kid * kid) + (by_age.adult * adult)) * price;
 }
@@ -32,6 +73,7 @@ function setPaymentTab() {
 	}
 	generateReview();
 	setActive('payment-tab', true);
+
 
 }
 
@@ -83,14 +125,17 @@ function setActive(tab, def) {
 		reloadTicketCodes();
 	} else {
 		codes = {};
-		$('.show-flight').show();
-		$('.show-flight:first').click();
+		
 	}
 	reloadMarkers();
 	$('.tab-page').hide();
 	$('#'+tab).show();
 	$('.masthead .nav-tabs .active').removeClass('active');
 	$('.masthead .'+tab).parent().addClass('active');
+	if (tab == 'payment-tab'){
+		$('.show-flight').show();
+		$('.show-flight:first').click();
+	}
 }
 
 function show_current_flight(){
@@ -671,7 +716,7 @@ function generateReview() {
 			'				<img title="'+airline_name+'" src="'+airline_img+'">'+
 			'			</a>'+
 			'		</div>'+
-			'		<div class="date">'+date+'</div>'+
+			'		<div class="date">'+dateToFullStr(strToDate(date))+'</div>'+
 			'		<a href="#flight'+i+'" title="Editar este voo" class="edit-flight">'+
             '			<span class="glyphicon glyphicon-edit"></span>'+
             '		</a>'+
@@ -806,42 +851,10 @@ $(document).ready(function(){
 	
     loadMap();
     
-    selectedFlights = {
-    	0 : {
-    		'from_city': 'Niterói',
-			'to_city': 'São Paulo',
-			'from_code': ['SDU', 'GIG'],
-			'to_code': ['MAE', 'GRU', 'CGH'],
-			'date': '31/12/2013'
-    	}, 
-    	1 : {
-			'from_city': 'São Paulo',
-    		'to_city': 'Palmas',
-			'from_code': ['MAE', 'GRU', 'CGH'],
-			'to_code': ['PMW'],
-			'date': '03/01/2014'
-    	}, 
-    	2 : {
-			'from_city': 'Palmas',
-    		'to_city': 'Niterói',
-			'from_code': ['PMW'],
-			'to_code': ['SDU', 'GIG'],
-			'date': '03/01/2014'
-    	}
+    selectedFlights = {};
+    useStops = true;
+    adult = 1;
 
-    };
-    useStops = false;
-    adult = 2;
-    kid = 2;
-    baby = 2;
-
-	generateDateSearch()
-	
-
-    $('.masthead .nav-tabs a.date-tab').parent().removeClass('disable');
-	$('.masthead .nav-tabs a.ticket-tab').parent().removeClass('disable');
-	$('.masthead .nav-tabs a.payment-tab').parent().removeClass('disable');
-	setPaymentTab();
 	setSearchTab();
     $(function() {
     	
@@ -1149,7 +1162,8 @@ $(document).ready(function(){
 			$('.searchFlight:not(:first)').remove();
 			$('.searchFlight .removeflight').css('visibility', 'hidden');
 			$('.fakeInput .code').html('&nbsp;');
-			
+			codes = {};
+			selectedFlights = {};
 			setSearchTab();
    
 		});

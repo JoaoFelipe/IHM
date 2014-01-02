@@ -174,6 +174,31 @@ airlines_website = {
 	'Avianca': 'http://www.avianca.com.br/ecommerce/'
 }
 
+var full_months = {
+	0: "Janeiro",
+	1: "Fevereiro",
+	2: "Março",
+	3: "Abril",
+	4: "Maio",
+	5: "Junho",
+	6: "Julho",
+	7: "Agosto",
+	8: "Setembro",
+	9: "Outubro",
+	10: "Novembro",
+	11: "Dezembro"
+};
+
+var full_weekday = {
+	0: "Domingo",
+	1: "Segunda-Feira",
+	2: "Terça-Feira",
+	3: "Quarta-Feira",
+	4: "Quinta-Feira",
+	5: "Sexta-Feira",
+	6: "Sábado",
+};
+
 var by_age = {
 	'baby': 0.0,
 	'kid': 0.7,
@@ -508,4 +533,11 @@ function jsonConcat(o1, o2) {
 		o1[key] = o2[key];
 	}
 	return o1;
+}
+
+function dateToFullStr(date) {
+	return full_weekday[date.getDay()] + ', ' +
+		to2char(date.getDate()) + ' de ' 
+		+ full_months[date.getMonth()] + ' de '
+		+ (date.getYear() + 1900);
 }
