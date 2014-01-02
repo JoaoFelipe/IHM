@@ -898,13 +898,14 @@ input.fifth1 {
 	width: 20% !important;
 }
 
+input.fifth2 {
+	width: 40% !important;
+}
+
 input.quater {
 	width: 25% !important;
 }
 
-input.passcode {
-	width: 30% !important;
-}
 
 input.seventy {
 	width: 70% !important;
@@ -940,10 +941,7 @@ input.seventy {
 	content: "/"
 }
 
-.expire {
-	background-color: white;
-	border-left: 1px solid #ccc !important;
-}
+
 
 .input-group {
 	margin-top: 10px;
@@ -984,4 +982,123 @@ p.middle {
 
 .empty {
 	color: #a5a5a5;
+}
+
+#selectdate{
+	margin-left: 25px;
+}
+
+label.check:hover, input[type="checkbox"]:hover {
+	cursor: pointer;
+}
+
+.selectquantity label{
+	width: 125px;
+	font-size: 16px;
+	float: left;
+	line-height: 1.3;
+}
+
+.selectquantity input {
+	width: 70px;
+	border: 2px solid #ccc;
+	border-radius: 5px;
+	margin-bottom: 10px;
+	padding-left: 10px;
+	float: left;
+}
+
+.selectquantity span.desc {
+	font-size: 12px;
+	color: gray;
+}
+
+.selectquantity span.title {
+	display: block;
+	margin-top: 5px;
+}
+
+.selectquantity {
+	display: inline-block;
+	margin-right: 25px;
+}
+
+.quantities, #search-next {
+	margin-top: 15px;
+}
+
+.quantities .warning {
+	border-color: #a94442;
+}
+
+.expire, .country {
+	background-color: white;
+	border-left: 1px solid #ccc !important;
+	font-size: 14px !important;
+	color: rgb(85, 85, 85);
+	font-weight: normal;
+}
+
+.expire, .country {
+	border: 1px solid rgb(204, 204, 204);
+	border-bottom-right-radius: 5px;
+	border-collapse: separate;
+	display: inline-block;
+	
+	height: 48px;
+	padding: 6px 12px;
+	vertical-align: middle;
+	width: 35%;
+	float: right;
+}
+
+
+.expire {
+
+	border-top-right-radius: 5px;
+}
+
+.country select, .expire select {
+	
+	position: relative;
+	top: 2px;
+}
+
+.formlabel {
+	float: left;
+	position: relative;
+	top: 1px;
+	margin-right: 10px;
+}
+
+@media (max-width: 992px) {
+	.formlabel {
+		display: none;
+	}
+}
+
+@media (min-width: 993px) {
+	.formlabel {
+		display: inline-block;
+		color: rgb(85, 85, 85);
+		font-weight: normal;
+		font-size: 100%;
+	}
+}
+
+.travelers .input-group-addon .inner {
+	width: 112px;
+	display: inline-block;
+}
+
+.row {
+	min-width: 600px;
+}
+
+.fakeInput .lat, .fakeInput .long {
+	display: none;
+}
+
+.airport_item .lat, .airport_item .long {
+	display: none;
 }

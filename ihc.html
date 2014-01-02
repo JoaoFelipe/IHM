@@ -86,9 +86,26 @@
                   Adicionar Volta <span class="glyphicon glyphicon-plus"></span>
                 </a>
                 <div class="clear"></div>
-                <input name="stops" type="checkbox" id="stops"> <label for="stops"> Sem escala </label>
-                <br>
-                
+
+                <div class="quantities">
+                  <div class="selectquantity">
+                    <label for="adultspinner" title="Quantidade de adultos e jovens (passageiros com mais de 12 anos)"> <span class="title">Adultos:</span> <span class="desc"> (mais de 12 anos) </span></label>
+                    <input min="0" step="1" pattern="\d+" id="adultspinner" name="adultspinner" title="Quantidade de adultos e jovens (passageiros com mais de 12 anos)" value="1" type="number"  placeholder="Adultos">
+                    <div class="clear"></div>
+                  </div>
+                  <div class="selectquantity">
+                    <label for="kidspinner" title="Quantidade de crianças (passageiros com 2 a 11 anos)"> <span class="title">Crianças:</span> <span class="desc"> (2 a 11 anos) </span></label>
+                    <input min="0" step="1" pattern="\d+" id="kidspinner" name="kidspinner" title="Quantidade de crianças (passageiros com 2 a 11 anos)" value="0" type="number"  placeholder="Crianças">
+                    <div class="clear"></div>
+                  </div>
+                  <div class="selectquantity">
+                    <label for="babyspinner" title="Quantidade de bebês (passageiros com menos de 2 anos)"> <span class="title">Bebês:</span> <span class="desc"> (menos de 2 anos) </span></label>
+                    <input min="0" step="1" pattern="\d+" id="babyspinner" name="babyspinner" title="Quantidade de crianças bebês (passageiros com menos de 2 anos)" value="0" type="number"  placeholder="Bebês">
+                    <div class="clear"></div>
+                  </div>
+                </div>
+                <input name="stops" type="checkbox" id="stops"> <label class="check" for="stops"> Sem escala </label>
+                <input name="selectdate" type="checkbox" checked="check" id="selectdate"> <label class="check" for="selectdate"> Data flexível </label>
                 <p><a class="btn btn-sm btn-primary" id="search-next" href="#" role="button">
                   Buscar <span class="glyphicon glyphicon-chevron-right"></span>
                 </a></p>
@@ -151,7 +168,7 @@
                     <div class="input-group input-group-lg">
                       <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
                       <input name="name" title="Nome que apareçe no cartão - Campo Obrigatório" type="text" class="half required form-control" placeholder="Nome no cartão *">
-                      <input name="email" title="E-mail - Campo Obrigatório" type="text" class="half required form-control" placeholder="E-mail *">
+                      <input id="email" name="email" title="E-mail - Campo Obrigatório" type="email" class="half required form-control" placeholder="E-mail *">
                     </div>
                     <div class="input-group input-group-lg">
                       <span class="input-group-addon"><span class="glyphicon glyphicon-globe"></span></span>
@@ -159,40 +176,219 @@
                       <input type="text" class="first required form-control" name="address1" title="Primeira linha do endereço - Campo Obrigatório" placeholder="Endereço - Linha 1 *">
                       <input type="text" name="address2" title="Segunda linha do endereço - Campo Opcional" class="form-control" placeholder="Endereço - Linha 2">
                       <input type="text" name="zipcode" title="CEP - Campo Obrigatório" class="required quater form-control" placeholder="CEP *">
-                      <input type="text" name="city" title="Cidade - Campo Obrigatório" class="required quater form-control" placeholder="Cidade *">
+                      <input type="text" name="city" title="Cidade - Campo Obrigatório" class="required fifth2 form-control" placeholder="Cidade *">
                       
-                      <input type="text" name="country" title="País - Campo Obrigatório" class="last required half form-control" placeholder="País *">
-                      
+                      <!-- <input type="text" name="country" title="País - Campo Obrigatório" class="last required half form-control" placeholder="País *"> -->
+                      <span class="country half">
+                        <span class="formlabel"> País * </span>
+                        <select name="selectcountry" title="País - Campo Obrigatório" class="required">
+                          <option value="África do Sul">África do Sul</option>
+                          <option value="Albânia">Albânia</option>
+                          <option value="Alemanha">Alemanha</option>
+                          <option value="Andorra">Andorra</option>
+                          <option value="Angola">Angola</option>
+                          <option value="Anguilla">Anguilla</option>
+                          <option value="Antigua">Antigua</option>
+                          <option value="Arábia Saudita">Arábia Saudita</option>
+                          <option value="Argentina">Argentina</option>
+                          <option value="Armênia">Armênia</option>
+                          <option value="Aruba">Aruba</option>
+                          <option value="Austrália">Austrália</option>
+                          <option value="Áustria">Áustria</option>
+                          <option value="Azerbaijão">Azerbaijão</option>
+                          <option value="Bahamas">Bahamas</option>
+                          <option value="Bahrein">Bahrein</option>
+                          <option value="Bangladesh">Bangladesh</option>
+                          <option value="Barbados">Barbados</option>
+                          <option value="Bélgica">Bélgica</option>
+                          <option value="Benin">Benin</option>
+                          <option value="Bermudas">Bermudas</option>
+                          <option value="Botsuana">Botsuana</option>
+                          <option value="Brasil" selected>Brasil</option>
+                          <option value="Brunei">Brunei</option>
+                          <option value="Bulgária">Bulgária</option>
+                          <option value="Burkina Fasso">Burkina Fasso</option>
+                          <option value="botão">botão</option>
+                          <option value="Cabo Verde">Cabo Verde</option>
+                          <option value="Camarões">Camarões</option>
+                          <option value="Camboja">Camboja</option>
+                          <option value="Canadá">Canadá</option>
+                          <option value="Cazaquistão">Cazaquistão</option>
+                          <option value="Chade">Chade</option>
+                          <option value="Chile">Chile</option>
+                          <option value="China">China</option>
+                          <option value="Cidade do Vaticano">Cidade do Vaticano</option>
+                          <option value="Colômbia">Colômbia</option>
+                          <option value="Congo">Congo</option>
+                          <option value="Coréia do Sul">Coréia do Sul</option>
+                          <option value="Costa do Marfim">Costa do Marfim</option>
+                          <option value="Costa Rica">Costa Rica</option>
+                          <option value="Croácia">Croácia</option>
+                          <option value="Dinamarca">Dinamarca</option>
+                          <option value="Djibuti">Djibuti</option>
+                          <option value="Dominica">Dominica</option>
+                          <option value="EUA">EUA</option>
+                          <option value="Egito">Egito</option>
+                          <option value="El Salvador">El Salvador</option>
+                          <option value="Emirados Árabes">Emirados Árabes</option>
+                          <option value="Equador">Equador</option>
+                          <option value="Eritréia">Eritréia</option>
+                          <option value="Escócia">Escócia</option>
+                          <option value="Eslováquia">Eslováquia</option>
+                          <option value="Eslovênia">Eslovênia</option>
+                          <option value="Espanha">Espanha</option>
+                          <option value="Estônia">Estônia</option>
+                          <option value="Etiópia">Etiópia</option>
+                          <option value="Fiji">Fiji</option>
+                          <option value="Filipinas">Filipinas</option>
+                          <option value="Finlândia">Finlândia</option>
+                          <option value="França">França</option>
+                          <option value="Gabão">Gabão</option>
+                          <option value="Gâmbia">Gâmbia</option>
+                          <option value="Gana">Gana</option>
+                          <option value="Geórgia">Geórgia</option>
+                          <option value="Gibraltar">Gibraltar</option>
+                          <option value="Granada">Granada</option>
+                          <option value="Grécia">Grécia</option>
+                          <option value="Guadalupe">Guadalupe</option>
+                          <option value="Guam">Guam</option>
+                          <option value="Guatemala">Guatemala</option>
+                          <option value="Guiana">Guiana</option>
+                          <option value="Guiana Francesa">Guiana Francesa</option>
+                          <option value="Guiné-bissau">Guiné-bissau</option>
+                          <option value="Haiti">Haiti</option>
+                          <option value="Holanda">Holanda</option>
+                          <option value="Honduras">Honduras</option>
+                          <option value="Hong Kong">Hong Kong</option>
+                          <option value="Hungria">Hungria</option>
+                          <option value="Iêmen">Iêmen</option>
+                          <option value="Ilhas Cayman">Ilhas Cayman</option>
+                          <option value="Ilhas Cook">Ilhas Cook</option>
+                          <option value="Ilhas Curaçao">Ilhas Curaçao</option>
+                          <option value="Ilhas Marshall">Ilhas Marshall</option>
+                          <option value="Ilhas Turks &amp; Caicos">Ilhas Turks &amp; Caicos</option>
+                          <option value="Ilhas Virgens (brit.)">Ilhas Virgens (brit.)</option>
+                          <option value="Ilhas Virgens(amer.)">Ilhas Virgens(amer.)</option>
+                          <option value="Ilhas Wallis e Futuna">Ilhas Wallis e Futuna</option>
+                          <option value="Índia">Índia</option>
+                          <option value="Indonésia">Indonésia</option>
+                          <option value="Inglaterra">Inglaterra</option>
+                          <option value="Irlanda">Irlanda</option>
+                          <option value="Islândia">Islândia</option>
+                          <option value="Israel">Israel</option>
+                          <option value="Itália">Itália</option>
+                          <option value="Jamaica">Jamaica</option>
+                          <option value="Japão">Japão</option>
+                          <option value="Jordânia">Jordânia</option>
+                          <option value="Kuwait">Kuwait</option>
+                          <option value="Latvia">Latvia</option>
+                          <option value="Líbano">Líbano</option>
+                          <option value="Liechtenstein">Liechtenstein</option>
+                          <option value="Lituânia">Lituânia</option>
+                          <option value="Luxemburgo">Luxemburgo</option>
+                          <option value="Macau">Macau</option>
+                          <option value="Macedônia">Macedônia</option>
+                          <option value="Madagascar">Madagascar</option>
+                          <option value="Malásia">Malásia</option>
+                          <option value="Malaui">Malaui</option>
+                          <option value="Mali">Mali</option>
+                          <option value="Malta">Malta</option>
+                          <option value="Marrocos">Marrocos</option>
+                          <option value="Martinica">Martinica</option>
+                          <option value="Mauritânia">Mauritânia</option>
+                          <option value="Mauritius">Mauritius</option>
+                          <option value="México">México</option>
+                          <option value="Moldova">Moldova</option>
+                          <option value="Mônaco">Mônaco</option>
+                          <option value="Montserrat">Montserrat</option>
+                          <option value="Nepal">Nepal</option>
+                          <option value="Nicarágua">Nicarágua</option>
+                          <option value="Niger">Niger</option>
+                          <option value="Nigéria">Nigéria</option>
+                          <option value="Noruega">Noruega</option>
+                          <option value="Nova Caledônia">Nova Caledônia</option>
+                          <option value="Nova Zelândia">Nova Zelândia</option>
+                          <option value="Omã">Omã</option>
+                          <option value="Palau">Palau</option>
+                          <option value="Panamá">Panamá</option>
+                          <option value="Papua-nova Guiné">Papua-nova Guiné</option>
+                          <option value="Paquistão">Paquistão</option>
+                          <option value="Peru">Peru</option>
+                          <option value="Polinésia Francesa">Polinésia Francesa</option>
+                          <option value="Polônia">Polônia</option>
+                          <option value="Porto Rico">Porto Rico</option>
+                          <option value="Portugal">Portugal</option>
+                          <option value="Qatar">Qatar</option>
+                          <option value="Quênia">Quênia</option>
+                          <option value="Rep. Dominicana">Rep. Dominicana</option>
+                          <option value="Rep. Tcheca">Rep. Tcheca</option>
+                          <option value="Reunion">Reunion</option>
+                          <option value="Romênia">Romênia</option>
+                          <option value="Ruanda">Ruanda</option>
+                          <option value="Rússia">Rússia</option>
+                          <option value="Saipan">Saipan</option>
+                          <option value="Samoa Americana">Samoa Americana</option>
+                          <option value="Senegal">Senegal</option>
+                          <option value="Serra Leone">Serra Leone</option>
+                          <option value="Seychelles">Seychelles</option>
+                          <option value="Singapura">Singapura</option>
+                          <option value="Síria">Síria</option>
+                          <option value="Sri Lanka">Sri Lanka</option>
+                          <option value="St. Kitts &amp; Nevis">St. Kitts &amp; Nevis</option>
+                          <option value="St. Lúcia">St. Lúcia</option>
+                          <option value="St. Vincent">St. Vincent</option>
+                          <option value="Sudão">Sudão</option>
+                          <option value="Suécia">Suécia</option>
+                          <option value="Suiça">Suiça</option>
+                          <option value="Suriname">Suriname</option>
+                          <option value="Tailândia">Tailândia</option>
+                          <option value="Taiwan">Taiwan</option>
+                          <option value="Tanzânia">Tanzânia</option>
+                          <option value="Togo">Togo</option>
+                          <option value="Trinidad &amp; Tobago">Trinidad &amp; Tobago</option>
+                          <option value="Tunísia">Tunísia</option>
+                          <option value="Turquia">Turquia</option>
+                          <option value="Ucrânia">Ucrânia</option>
+                          <option value="Uganda">Uganda</option>
+                          <option value="Uruguai">Uruguai</option>
+                          <option value="Venezuela">Venezuela</option>
+                          <option value="Vietnã">Vietnã</option>
+                          <option value="Zaire">Zaire</option>
+                          <option value="Zâmbia">Zâmbia</option>
+                          <option value="Zimbábue">Zimbábue</option>
+                        </select>
+                        <div class="clear"></div>
+                      </span>
                     </div>
                     <div class="input-group input-group-lg">
                       <span class="input-group-addon"><span class="glyphicon glyphicon-credit-card"></span></span>
-                      <input type="text" name="number" title="Número do cartão - Campo Obrigatório" class="required seventy form-control" placeholder="Número do cartão *">
-                      <input type="text" name="code" title="Código que aparece atrás do cartão - Campo Obrigatório" class="required passcode form-control" placeholder="Código *">
-                      <span class="input-group-addon expire">
-                        Vencimento *
-                     <select name='expireMM' title="Mês de vencimento - Campo Obrigatório" class="required" id='expireMM'>
-                        <option value=''>Mês</option>
-                        <option value='01'>Jan</option>
-                        <option value='02'>Fev</option>
-                        <option value='03'>Mar</option>
-                        <option value='04'>Abr</option>
-                        <option value='05'>Mai</option>
-                        <option value='06'>Jun</option>
-                        <option value='07'>Jul</option>
-                        <option value='08'>Ago</option>
-                        <option value='09'>Set</option>
-                        <option value='10'>Out</option>
-                        <option value='11'>Nov</option>
-                        <option value='12'>Dez</option>
-                      </select> 
-                      <select name='expireYY' title="Ano de vencimento - Campo Obrigatório" class="required" id='expireYY'>
+                      <input type="text" id="cardnumber" name="number" title="Número do cartão - Campo Obrigatório" class="required fifth2 form-control" placeholder="Número do cartão *">
+                      <input type="text" name="code" title="Código que aparece atrás do cartão - Campo Obrigatório" class="required quater form-control" placeholder="Código *">
+                      <span class="expire">
+                        <span class="formlabel"> Vencimento * </span>
+                        <select name='expireMM' title="Mês de vencimento - Campo Obrigatório" class="required" id='expireMM'>
+                          <option value=''>Mês</option>
+                          <option value='01'>Jan</option>
+                          <option value='02'>Fev</option>
+                          <option value='03'>Mar</option>
+                          <option value='04'>Abr</option>
+                          <option value='05'>Mai</option>
+                          <option value='06'>Jun</option>
+                          <option value='07'>Jul</option>
+                          <option value='08'>Ago</option>
+                          <option value='09'>Set</option>
+                          <option value='10'>Out</option>
+                          <option value='11'>Nov</option>
+                          <option value='12'>Dez</option>
+                        </select> 
+                        <select name='expireYY' title="Ano de vencimento - Campo Obrigatório" class="required" id='expireYY'>
                           <option value=''>Ano</option>
                           <option value='14'>14</option>
                           <option value='15'>15</option>
                           <option value='16'>16</option>
                           <option value='17'>17</option>
                           <option value='18'>18</option>
-                      </select>  
+                        </select>  
                       </span>
                       <!-- <input type="text" class="required fifth1 form-control" placeholder="Vecimento *"> -->
                     </div>
@@ -254,6 +450,7 @@
     <script src="jquery/js/jquery-ui-1.10.3.custom.js"></script>
     <script src="jquery/js/jquery-ui.autocomplete.html.js"></script>
     <script src="jquery/js/jquery.livequery.min.js"></script>
+    <script src="jquery/js/jquery.maskedinput.min.js"></script>
     <script src="dist/js/bootstrap.min.js"></script>
     <script src="OpenLayers/OpenLayers.js"></script>
     <script type="text/javascript" language="javascript" src="DataTables/media/js/jquery.dataTables.min.js"></script>

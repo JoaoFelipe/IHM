@@ -238,7 +238,7 @@ function findNearAirports(max_distance, lat, lng){
 	return [near_airports, codes];
 }
 
-function autoCompleteHTML(code, icon, name, city) {
+function autoCompleteHTML(code, icon, name, city, lat, lng) {
 	return '<div class="airport_item">' +
            	  '  <div class="airport">' +
               '    <div class="code">'+code+'</div>' +
@@ -246,6 +246,9 @@ function autoCompleteHTML(code, icon, name, city) {
               '    <div class="name">'+name+'</div>' +
               '  </div>' +
               '  <div class="city">'+city+'</div>' +
+              '  <div class="lat">'+lat+'</div>' +
+              '  <div class="long">'+lng+'</div>' +
+              
               '  <div class="clear"></div>' +
               '</div>';
 }
@@ -264,8 +267,10 @@ function autoCompleteList() {
 			value: airport[2],
 			city: airport[2],
 			codes: [airport[0]],
-			label_template: autoCompleteHTML('[0]', 'plane', '[1]', '[2]'),
+			label_template: autoCompleteHTML('[0]', 'plane', '[1]', '[2]', '[3]', '[4]'),
             label_value: airport,
+            lat: airport[3],
+            lng: airport[4],
             search: airport[0] + ' ' + airport[1] + ' ' + airport[2]
 		});
 	}
@@ -273,15 +278,25 @@ function autoCompleteList() {
 		list = airport_cities[city];
 		if (list.length > 1) {
 			codes = [];
+			var av_lat = 0.0;
+			var av_long = 0.0;
+			var count = 0;
 			for (var i = 0; i < list.length; i++) {
 				codes.push(list[i][0]);
+				av_lat += list[i][3];
+				av_long += list[i][4];
+				count++;
 			}
+			av_lat /= count;
+			av_long /= count;
 			source.push({
     			value: city,
 				city: city,
 				codes: codes,
-    			label_template: autoCompleteHTML('Todos', 'tower', '[0]', 'Todos Aeroportos ([1])'),
-                label_value: [city, codes.join(', ')],
+    			label_template: autoCompleteHTML('Todos', 'tower', '[0]', 'Todos Aeroportos ([1])', '[2]', '[3]'),
+                label_value: [city, codes.join(', '), av_lat, av_long],
+                lat: av_lat,
+                lng: av_long,
                 search: city
     		});
 		}
@@ -299,8 +314,10 @@ function autoCompleteList() {
 			value: location[0],
 			city: location[0],
 			codes: codes,
-			label_template: autoCompleteHTML('', 'globe', '[0]', '[1]'),
-            label_value: [location[0], (codes.length > 0) ? codes.join(', ') : ("Nenhum aeroporto encontrado em "+ max_distance + " km")],
+			label_template: autoCompleteHTML('', 'globe', '[0]', '[1]', '[2]', '[3]'),
+            label_value: [location[0], (codes.length > 0) ? codes.join(', ') : ("Nenhum aeroporto encontrado em "+ max_distance + " km"), location[1], location[2]],
+            lat: location[1],
+            lng: location[2],
             search: location[0]
 		});
 	}
@@ -315,8 +332,10 @@ function autoCompleteList() {
     			value: 'Posição atual',
 				city: 'Posição atual',
 				codes: codes,
-    			label_template: autoCompleteHTML('', 'user', '[0]', '[1]'),
-                label_value: ['Posição atual', (codes.length > 0) ? codes.join(', ') : ("Nenhum aeroporto encontrado em "+ max_distance + " km")],
+    			label_template: autoCompleteHTML('', 'user', '[0]', '[1]', '[2]', '[3]'),
+                label_value: ['Posição atual', (codes.length > 0) ? codes.join(', ') : ("Nenhum aeroporto encontrado em "+ max_distance + " km"), position.coords.latitude, position.coords.longitude],
+                lat: position.coords.latitude, 
+            	lng: position.coords.longitude,
                 search: 'Posição atual'
     		});
 

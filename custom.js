@@ -273,6 +273,7 @@ function validateSearch() {
 	var field_error = false;
 	var date_error = false;
 	var last_date = null;
+	$('.warning').removeClass('warning');
 	$('.searchFlights input.datepicker').each(function(k, element){
 		if (!$(element).val()) {
 			result = false;
@@ -298,14 +299,35 @@ function validateSearch() {
 			$(element).parent().addClass('warning');
 		}
 	});
+	var errors = [];
+	if (parseInt($('#babyspinner').val()) > 0 && parseInt($('#adultspinner').val()) == 0) {
+		result = false;
+		$('#babyspinner').addClass('warning');
+		errors.push("Bebês devem ser acompanhados de algum adulto.");
+	}
+
+	if (parseInt($('#kidspinner').val()) > 0 && parseInt($('#adultspinner').val()) == 0) {
+		result = false;
+		$('#kidspinner').addClass('warning');
+		errors.push("Crianças devem ser acompanhadas de algum adulto.");
+	}
+
+	if ((parseInt($('#babyspinner').val()) + parseInt($('#adultspinner').val()) + parseInt($('#kidspinner').val())) == 0) {
+		result = false;
+		$('#babyspinner').addClass('warning');
+		$('#kidspinner').addClass('warning');
+		$('#adultspinner').addClass('warning');
+		errors.push("Pelo menos um passageiro deve ser selecionado.");
+	}
+
 	if (!result) {
-		var errors = [];
-		if (field_error) {
-			errors.push("Todos os campos devem estar preenchidos.");	
-		}
 		if (date_error) {
 			errors.push("Os voos devem estar ordenados por data.");
 		}
+		if (field_error) {
+			errors.push("Todos os campos devem estar preenchidos.");	
+		}
+		errors.reverse();
 		$('.search-alert').html(errors.join("<br>"));
 		$('.search-alert').show();
 	} else {
@@ -780,7 +802,7 @@ function generateReview() {
 	for (var i = 0; i < adult; i++) {
 		$('.travelers').append(
 			'<div class="input-group input-group-lg">'+
-			'	<span class="input-group-addon"> Adulto '+(i+1)+'</span>'+
+			'	<span class="input-group-addon"> <span class="inner"> Adulto '+(i+1)+'</span></span>'+
 			'	<input name="adult-'+(i+1)+'-name" title="Nome - Campo Obrigatório" type="text" class="half required form-control" placeholder="Nome *">'+
 			'	<input name="adult-'+(i+1)+'-name" title="Identidade ou Passaporte - Campo Obrigatório" type="text" class="half required form-control" placeholder="Identidade ou Passaporte *">'+
 			'</div>'
@@ -790,7 +812,7 @@ function generateReview() {
 	for (var i = 0; i < kid; i++) {
 		$('.travelers').append(
 			'<div class="input-group input-group-lg">'+
-			'	<span class="input-group-addon"> Criança '+(i+1)+'</span>'+
+			'	<span class="input-group-addon"> <span class="inner">Criança '+(i+1)+'</span></span>'+
 			'	<input name="kid-'+(i+1)+'-name" title="Nome - Campo Obrigatório" type="text" class="half required form-control" placeholder="Nome *">'+
 			'	<input name="kid-'+(i+1)+'-name" title="Identidade ou Passaporte - Campo Obrigatório" type="text" class="half required form-control" placeholder="Identidade ou Passaporte *">'+
 			'</div>'
@@ -800,7 +822,7 @@ function generateReview() {
 	for (var i = 0; i < baby; i++) {
 		$('.travelers').append(
 			'<div class="input-group input-group-lg">'+
-			'	<span class="input-group-addon"> Bebê '+(i+1)+'</span>'+
+			'	<span class="input-group-addon"> <span class="inner">Bebê '+(i+1)+'</span></span>'+
 			'	<input name="baby-'+(i+1)+'-name" title="Nome - Campo Obrigatório" type="text" class="half required form-control" placeholder="Nome *">'+
 			'	<input name="baby-'+(i+1)+'-name" title="Identidade ou Passaporte - Campo Obrigatório" type="text" class="half required form-control" placeholder="Identidade ou Passaporte *">'+
 			'</div>'
@@ -809,6 +831,11 @@ function generateReview() {
 
 
 }
+
+function validateEmail(email) { 
+    var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
+} 
 
 function validatePayment() {
 	var result = true;
@@ -834,6 +861,12 @@ function validatePayment() {
 		field_error = true;
 		$('#expireYY').addClass('warning');
 	}
+
+	if (!validateEmail($('#email').val())){
+		result = false;
+		errors.push("E-mail inválido");	
+		$('#email').addClass('warning');
+	}
 	
 	if (!result) {
 		if (field_error) {
@@ -856,6 +889,8 @@ $(document).ready(function(){
     adult = 1;
 
 	setSearchTab();
+
+
     $(function() {
     	
 	    $(".searchInput").livequery(function(){
@@ -874,7 +909,9 @@ $(document).ready(function(){
 		         	}
 		         	fakeInput.html(
 		         		'<div class="city">'+city+'</div>' +
-	                    '<div class="code">'+((item.item.codes.length > 0) ? item.item.codes.join(', ') : "Nenhum aeroporto selecionado")+'</div>'
+	                    '<div class="code">'+((item.item.codes.length > 0) ? item.item.codes.join(', ') : "Nenhum aeroporto selecionado")+'</div>'+
+	                    '<div class="lat">'+item.item.lat+'</div>'+
+	                    '<div class="long">'+item.item.lng+'</div>'
 	                );
 	                $(this).removeClass('warning');
 	                fakeInput.removeClass('warning');
@@ -1009,6 +1046,10 @@ $(document).ready(function(){
 
 		$('#search-next').click(function(){
 			if (validateSearch()) {
+				adult = parseInt($('#adultspinner').val());
+				kid = parseInt($('#kidspinner').val());
+				baby = parseInt($('#babyspinner').val());
+				useStops = !$('#stops').is(':checked');
 				var number = 0;
 				selectedFlights = {};
 				codes = {};
@@ -1069,7 +1110,12 @@ $(document).ready(function(){
 
 				$('.masthead .nav-tabs a.date-tab').parent().removeClass('disable');
 				$('.masthead .nav-tabs a.ticket-tab').parent().removeClass('disable');
-				setActive('date-tab')
+				if ($('#selectdate').is(':checked')) {
+					setActive('date-tab')
+				} else {
+					setActive('ticket-tab')
+				}
+				
 			}
 		});
 
@@ -1162,11 +1208,20 @@ $(document).ready(function(){
 			$('.searchFlight:not(:first)').remove();
 			$('.searchFlight .removeflight').css('visibility', 'hidden');
 			$('.fakeInput .code').html('&nbsp;');
+			//$('#adultspinner').val('1');
+			//$('#kidspinner').val('0');
+			//$('#babyspinner').val('0');
+			
 			codes = {};
 			selectedFlights = {};
 			setSearchTab();
    
 		});
 
+		$('#cardnumber').mask("9999 9999 9999 9999");
+		
 	});
+
+	//testPayment();
+	//setSearchTab();
 });
