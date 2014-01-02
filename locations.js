@@ -1,3 +1,11 @@
+if(typeof(String.prototype.trim) === "undefined")
+{
+    String.prototype.trim = function() 
+    {
+        return String(this).replace(/^\s+|\s+$/g, '');
+    };
+}
+
 airports = {
 	"CZS":  ['CZS', 'Aeroporto Internacional de Cruzeiro do Sul', 'Cruzeiro do Sul', -7.5992, -72.7678],
 	"RBR":  ['RBR', 'Aeroporto Internacional de Rio Branco - Plácido de Castro', 'Rio Branco', -9.8696, -67.8945],
@@ -154,8 +162,24 @@ airlines = [
 	['Delta Airlines', 'airline/delta.png'],
 	['TAM', 'airline/tam.png'],
 	['Avianca', 'airline/avianca.png'],
-]
+];
 
+airlines_website = {
+	'Air France': 'http://www.airfrance.com.br/cgi-bin/AF/BR/pt/local/home/home/HomePageAction.do',
+	'Gol': 'http://www.voegol.com.br/pt-br/Paginas/default.aspx',
+	'Azul': 'http://www.voeazul.com.br/',
+	'American Airlines': 'https://www.aa.com.br/homePage.do?locale=pt_BR&pref=true',
+	'Delta Airlines': 'http://www.delta.com/',
+	'TAM': 'http://www.tam.com.br/b2c/vgn/v/index.jsp?vgnextoid=97981ed526b72210VgnVCM1000003752070aRCRD',
+	'Avianca': 'http://www.avianca.com.br/ecommerce/'
+}
+
+var by_age = {
+	'baby': 0.0,
+	'kid': 0.7,
+	'adult': 1.0
+
+};
 
 function getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {
   var R = 6371; // Radius of the earth in km
@@ -333,7 +357,7 @@ function dayFlights(date, airport1, airport2) {
 		for (var j = 0; j < 40 && stops.length < 2; j++){
 			for (var k = 0; k < 40 && stops.length < 2; k++){
 				var code = (subname[i % subname.length] + subname[j % subname.length] + subname[k % subname.length]).toUpperCase();
-				if (code != airport2[0] && airports[code] != undefined && $.inArray(code, stops) == -1){
+				if (code != airport2[0] && code != airport1[0] && airports[code] != undefined && $.inArray(code, stops) == -1){
 					stops.push(code);
 				}
 			}

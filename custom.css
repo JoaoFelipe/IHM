@@ -96,6 +96,10 @@ li:not(.active):not(.disable) a.payment-tab:hover {
 }
 
 
+.olControlAttribution {
+	display: none !important;
+}
+
 /* search */
 
 .airport_item div {
@@ -562,9 +566,15 @@ input.datepicker {
 	margin-bottom: 7px;
 }
 
-.sideinfo .total-price {
+.sideinfo .total-price, .sideinfo .side-travelers {
 	padding: 0 15px;
 }
+
+.sideinfo .no-stop {
+	padding: 0 15px;
+	margin-bottom: 10px;
+} 
+
 
 .sideinfo .total-price:before {
 	content: "R$ ";
@@ -714,4 +724,264 @@ input.datepicker {
 
 li {
 	background-image: none !important;
+}
+
+/* payments */
+
+.review-flights .flight {
+	line-height: 1.3;
+	font-size: 14px;
+	margin: 20px 0;
+}
+
+.review-flights .flight .header {
+	padding: 10px 0 5px 10px;
+}
+
+.review-flights .flight .header .date {
+	font-size: 24px;
+}
+
+.review-flights .flight .airline {
+	float: left;
+}
+
+.review-flights .flight .date {
+	float: left;
+	padding: 5px 0 0 10px;
+}
+
+
+
+
+.review-flights .flight .from {
+	float: left;
+	width: 40%;
+	padding: 0 10px 10px 10px;
+}
+
+.review-flights .flight .to {
+	float: left;
+	width: 40%;
+	padding: 0 10px 10px 10px;
+}
+
+.review-flights .flight .side {
+	float: left;
+	width: 20%;
+	padding: 0 10px 10px 10px;
+}
+
+.review-flights .flight div.time, .review-flights .flight div.duration {
+	font-size: 20px;
+	margin-bottom: 5px;
+}
+
+.review-flights .flight .time .text, .review-flights .flight .duration .text {
+	color: gray;
+}
+
+.review-flights .flight .place .text {
+	font-weight: bolder;
+	color: gray;
+}
+
+.review-flights .flight .place .city {
+	color: gray;
+}
+.review-flights .flight .place .city:before {
+	content: "(";
+}
+.review-flights .flight .place .city:after {
+	content: ")";
+}
+
+.review-flights .flight .airport {
+	margin-top: 5px;
+}
+
+.review-flights .flight .edit-flight {
+	float: right;
+	font-size: 24px;
+	margin: 0 5px;
+}
+
+.review-flights .flight .show-flight {
+	float: right;
+	font-size: 24px;
+	margin: 0 5px;
+}
+
+.review-flights .flight .airport .name:before {
+	margin: 0 10px;
+	content: "-";
+}
+
+.review-flights .flight span.price {
+	color: #77d972;
+	font-size: 20px;
+} 
+
+.review-flights .flight span.price:before {
+	content: "R$ ";
+	
+} 
+
+.review-flights .flight:not(:first-child) {
+	border-top: 4px solid #ccc;
+	margin: 20px 0;
+	padding-top: 20px;
+}
+
+.review-flights .flight .stops {
+	padding: 0 10px 10px 10px;
+}
+.review-flights .flight .stops .airport {
+	margin: 0;
+}
+
+.review-flights .flight .stops .text {
+	color: gray;
+}
+
+.review-flights .flight .stops .text:after {
+	content: ":"
+}
+
+.review-flight-total {
+	border-top: 4px solid #ccc;
+	margin: 20px 0;
+	padding-top: 20px;
+} 
+
+.review-flight-total .text {
+	float: left;
+	width: 80%;
+	padding: 0 10px 10px 10px;
+}
+
+.review-flight-total div.price {
+	
+} 
+
+.review-flight-total span.price {
+	color: #77d972;
+	font-size: 20px;
+	padding: 0 10px 10px 10px;
+} 
+
+.review-flight-total span.price:before {
+	content: "R$ ";
+	
+} 
+
+/* Payment */
+
+.input-group-lg input, .input-group-lg button {
+	height: 48px !important;
+	padding: 6px 12px !important;
+	font-size: 17px !important;
+}
+
+input.half {
+	width: 50% !important;
+}
+
+input.fifth4 {
+	width: 80% !important;
+}
+
+input.fifth3 {
+	width: 60% !important;
+}
+input.fifth1 {
+	width: 20% !important;
+}
+
+input.quater {
+	width: 25% !important;
+}
+
+input.passcode {
+	width: 30% !important;
+}
+
+input.seventy {
+	width: 70% !important;
+}
+
+.payment input.first {
+	border-top-right-radius: 5px !important;
+}
+
+.payment input.last {
+	border-top-right-radius: 0 !important;
+}
+
+.payment button.notlast {
+	border-top-right-radius: 0 !important;
+	border-bottom-right-radius: 0 !important;
+	margin-left: 0 !important;
+}
+
+.payment button.last {
+	margin-left: -6px !important;
+}
+
+.none {
+	display: inline-block;
+}
+
+#expireMM:before {
+	content: "Vencimento";
+}
+
+#expireYY:before {
+	content: "/"
+}
+
+.expire {
+	background-color: white;
+	border-left: 1px solid #ccc !important;
+}
+
+.input-group {
+	margin-top: 10px;
+}
+
+.warning-message {
+	font-size: 12px;
+}
+
+#pay-next {
+	margin-top: 20px;
+}
+
+.payment-alert {
+	display: none;
+}
+
+.payment .warning {
+	border-color: #a94442;
+}
+
+.success-payment {
+	text-align: center !important;
+	display: none;
+}
+
+.flight-img {
+	display: none;
+}
+
+.erase-search {
+	margin-top: 30px;
+}
+
+p.middle {
+	text-align: center;
+}
+
+.empty {
+	color: #a5a5a5;
 }

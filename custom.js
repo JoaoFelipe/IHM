@@ -1,4 +1,10 @@
-var proj, map, markers, selectedFlights, codes = {};
+var proj, map, markers, selectedFlights, useStops=true, codes = {};
+var baby = 0, kid = 0, adult = 1;
+
+function getPrice(price) {
+	return ((by_age.baby * baby) + (by_age.kid * kid) + (by_age.adult * adult)) * price;
+}
+
 function setSearchTab() {
 	if ($('.masthead .nav-tabs a.search-tab').parent().hasClass('disable')){
 		return false;
@@ -24,7 +30,9 @@ function setPaymentTab() {
 	if ($('.masthead .nav-tabs a.payment-tab').parent().hasClass('disable')){
 		return false;
 	}
+	generateReview();
 	setActive('payment-tab', true);
+
 }
 
 function reloadSearchCodes() {
@@ -75,6 +83,8 @@ function setActive(tab, def) {
 		reloadTicketCodes();
 	} else {
 		codes = {};
+		$('.show-flight').show();
+		$('.show-flight:first').click();
 	}
 	reloadMarkers();
 	$('.tab-page').hide();
@@ -116,13 +126,18 @@ function show_current_flight(){
 	reloadMarkers();
 }
 
-function new_marker(img, lonLat, icon, size, offset) {
+function new_marker(img, lonLat, icon, size, offset, especial) {
 
 	if (img === null) {
     	return new OpenLayers.Marker(lonLat);
 	} else if (img === undefined) {
 		return new OpenLayers.Marker(lonLat, icon.clone());
 	} 
+	if (especial !== undefined) {
+		var size = new OpenLayers.Size(21,25);
+    	var offset = new OpenLayers.Pixel(-(size.w/2), -size.h);
+    	
+	}
 	return new OpenLayers.Marker(lonLat, new OpenLayers.Icon(img, size, offset));
 	
 } 
@@ -140,7 +155,7 @@ function loadMarkers(map, proj, markers) {
             proj, map.getProjectionObject()
           );
         
-        var marker = new_marker(codes[code], lonLat, icon, size, offset);
+        var marker = new_marker(codes[code], lonLat, icon, size, offset, codes['especial']);
        
         
         //marker.icon.size = size;
@@ -282,14 +297,17 @@ function fillDateSearch(current_number) {
 				var day_flights = dayFlights(current_date, airports[from_code], airports[to_code]);
 				for (var flight_index in day_flights) {
 					var flight = day_flights[flight_index];
-					if (flight[1] < minimum) {
-						minimum = flight[1];
-						selected = flight;
-						from = from_code;
-						to = to_code;
-					}
-					if (flight[1] < minimum_overall) {
-						minimum_overall = flight[1];
+					if (useStops || (!useStops && flight[2] == 0)){
+						var adjustedPrice = getPrice(flight[1]);
+						if (adjustedPrice < minimum) {
+							minimum = adjustedPrice;
+							selected = flight;
+							from = from_code;
+							to = to_code;
+						}
+						if (adjustedPrice < minimum_overall) {
+							minimum_overall = adjustedPrice;
+						}
 					}
 				}
 			}
@@ -379,47 +397,48 @@ function fillDateSearch(current_number) {
 			var day_flights = dayFlights(current_date, airports[from_code], airports[to_code]);
 			for (var flight_num in day_flights) {
 				var flight = day_flights[flight_num];
-				var connections = [];
-				for (var connection_num in flight[3]) {
-					var connection = flight[3][connection_num];
-					connections.push(
-						'<span title="'+airports[connection][1]+', '+airports[connection][2]+'">'+
-							connection +
-						'</span>'
-					);
+				if (useStops || (!useStops && flight[2] == 0)) {
+					var connections = [];
+					for (var connection_num in flight[3]) {
+						var connection = flight[3][connection_num];
+						connections.push(
+							'<span title="'+airports[connection][1]+', '+airports[connection][2]+'">'+
+								connection +
+							'</span>'
+						);
+					}
+					today_flights.push([
+						'<span class="price">'+priceToStr(getPrice(flight[1]))+'</span>',
+						'<div class="time">' +
+						'	<span class="departure">'+
+								timeToStr(flight[0]) +
+						'	</span>' +
+						'	<span class="arrival">'+
+								timeToStr(flight[6]) +
+						'	</span>' +
+						'</div>' +
+						'<div class="airports">' +
+						'	<span title="'+airports[from_code][1]+', '+airports[from_code][2]+'" class="departure_airport">'+
+								from_code +
+						'	</span>' +
+						'	<span title="'+airports[to_code][1]+', '+airports[to_code][2]+'" class="arrival_airport">'+
+								to_code +
+						'	</span>' +
+						'</div>',
+						durationToStr(flight[4]),
+						'<div class="stops">' +
+						'	<span class="number">'+
+								((flight[2] == 0)? "Sem escala" : ((flight[2] == 1)? "1 parada" : (flight[2] + " paradas")))+
+						'	</span>' +
+						'	<span class="stops">'+
+								connections.join(', ')+
+						'	</span>' +
+						'</div>',
+						'<img src="'+flight[5][1]+'" title="'+flight[5][0]+'" height="40" width="40">'
+						
+
+					]);
 				}
-
-				today_flights.push([
-					'<span class="price">'+priceToStr(flight[1])+'</span>',
-					'<div class="time">' +
-					'	<span class="departure">'+
-							timeToStr(flight[0]) +
-					'	</span>' +
-					'	<span class="arrival">'+
-							timeToStr(flight[6]) +
-					'	</span>' +
-					'</div>' +
-					'<div class="airports">' +
-					'	<span title="'+airports[from_code][1]+', '+airports[from_code][2]+'" class="departure_airport">'+
-							from_code +
-					'	</span>' +
-					'	<span title="'+airports[to_code][1]+', '+airports[to_code][2]+'" class="arrival_airport">'+
-							to_code +
-					'	</span>' +
-					'</div>',
-					durationToStr(flight[4]),
-					'<div class="stops">' +
-					'	<span class="number">'+
-							((flight[2] == 0)? "Sem escala" : ((flight[2] == 1)? "1 parada" : (flight[2] + " paradas")))+
-					'	</span>' +
-					'	<span class="stops">'+
-							connections.join(', ')+
-					'	</span>' +
-					'</div>',
-					'<img src="'+flight[5][1]+'" title="'+flight[5][0]+'" height="40" width="40">'
-					
-
-				]);
 			}
 		}
 	}
@@ -477,8 +496,8 @@ function fillDateSearch(current_number) {
 }
 
 function fnGetSelected( oTableLocal ) {
-	var aReturn = new ArratNodes();y();
-	var aTrs = oTableLocal.fnGe
+	var aReturn = new Array();
+	var aTrs = oTableLocal.fnGetNodes();
 	
 	for ( var i=0 ; i<aTrs.length ; i++ ) {
 		if ( $(aTrs[i]).hasClass('row_selected') ) {
@@ -512,6 +531,21 @@ function generateDateSearch() {
 		fillDateSearch(num);
 	}
 	updateDatePrice();
+	$('.sideinfo .side-travelers').text('');
+	if (useStops) {
+		$('.sideinfo .no-stop').text('');
+	} else {
+		$('.sideinfo .no-stop').text('Sem escala');
+	}
+	if (adult > 0) {
+		$('.sideinfo .adult-travelers').text(adult + ' Adulto' + ((adult > 1)? 's' : ''));
+	}
+	if (kid > 0) {
+		$('.sideinfo .kid-travelers').text(kid + ' Criança' + ((kid > 1)? 's' : ''));
+	}
+	if (baby > 0) {
+		$('.sideinfo .baby-travelers').text(baby + ' Bebê' + ((baby > 1)? 's' : ''));
+	}
 	$('.sideinfo').show();
 	$(".tabs").tabs();
 	$("#ticket-tab .skip:last").html('');
@@ -581,6 +615,193 @@ function loadMap() {
     });
 }
 
+function generateReview() {
+	$('.review-flights').html('');
+	var total = 0;
+	for (var i in selectedFlights) {
+		var tr = $(fnGetSelected(selectedFlights[i].table));
+		var price = strToPrice(tr.find('.price').text());
+		total += price;
+		var departure = tr.find('.departure').text();
+		var arrival = tr.find('.arrival').text();
+		var from_airport = tr.find('.departure_airport').text().trim();
+		var to_airport = tr.find('.arrival_airport').text().trim();
+		var stops_text = tr.find('.stops .number').text();
+		var duration = tr.find('td:nth-of-type(3)').text();
+		var stops = tr.find('.stops .stops span');
+		var airline_name = tr.find('img').attr('title');
+		var airline_img = tr.find('img').attr('src');
+		var date = $('a[href="#tabs-'+i+'"] .date').text();
+		var from_city = $('a[href="#tabs-'+i+'"] .from .city').text();
+		var to_city = $('a[href="#tabs-'+i+'"] .to .city').text();
+		var from_city_text = "";
+		var to_city_text = "";
+		if (from_city != airports[from_airport][2]) {
+			from_city_text = '<span class="city">próximo a '+from_city+'</span>'; 
+		}
+		if (to_city != airports[to_airport][2]) {
+			to_city_text = '<span class="city">próximo a '+to_city+'</span>'; 
+		}
+
+		var stop_text = "";
+	//	console.log(stops[0].trim());
+		if (stops.length > 0) {
+			stop_text = 
+				'<div class="stops">'+
+				'	<span class="text">'+stops_text.trim()+'</span>';
+			var stopi = 1;
+			stops.each(function(k, item){
+				var stop = $(item).text();
+				
+				stop_text += 
+					'<div class="airport" title="'+airports[stop][2]+'">'+
+					'	<img class="flight-img" src="blue'+(stopi++)+'.png">'+
+					'	<span class="code">'+stop+'</span>' +
+					'	<span class="name">'+airports[stop][1]+'</span>' +
+					'</div>';
+			});	
+			stop_text += '</div>';
+		}
+		
+		$('.review-flights').append(
+			'<div class="flight">' +
+			'	<div class="header">'+
+			'		<div class="airline">'+
+			'			<a href="'+airlines_website[airline_name]+'">'+
+			'				<img title="'+airline_name+'" src="'+airline_img+'">'+
+			'			</a>'+
+			'		</div>'+
+			'		<div class="date">'+date+'</div>'+
+			'		<a href="#flight'+i+'" title="Editar este voo" class="edit-flight">'+
+            '			<span class="glyphicon glyphicon-edit"></span>'+
+            '		</a>'+
+            '		<a href="#map" id="mapflight'+i+'" title="Mostrar no mapa" class="show-flight">'+
+            '			<span class="glyphicon glyphicon-globe"></span>'+
+            '		</a>'+
+			'		<div class="clear"></div>'+
+			'	</div>'+
+			'	<div class="from">'+
+			'		<div class="time">'+
+			'			<span class="text">Saída:</span>'+
+			'			<span class="hour">'+departure+'</span>'+
+			'		</div>'+
+			'		<div class="place">'+
+			'			<span class="text">Origem:</span>'+
+			'			<span class="airport_city">'+airports[from_airport][2]+' </span>'+
+						from_city_text+
+			'			<div class="airport">'+
+			'				<img class="flight-img" src="gold1.png">'+
+			'				<span class="code">'+from_airport+'</span>'+
+			'				<span class="name">'+airports[from_airport][1]+'</span>'+
+			'			</div>'+
+			'		</div>'+
+			'	</div>'+
+			'	<div class="to">'+
+			'		<div class="time">'+
+			'			<span class="text">Chegada:</span>'+
+			'			<span class="hour">'+arrival+'</span>'+
+			'		</div>'+
+			'		<div class="place">'+
+			'			<span class="text">Destino:</span>'+
+			'			<span class="airport_city">'+airports[to_airport][2]+' </span>'+
+						to_city_text+
+			'			<div class="airport">'+
+			'				<img class="flight-img" src="gold2.png">'+
+			'				<span class="code">'+to_airport+'</span>'+
+			'				<span class="name">'+airports[to_airport][1]+'</span>'+
+			'			</div>'+
+			'		</div>'+
+			'	</div>'+
+			'	<div class="side">'+
+			'		<div class="duration">'+
+			'			<span class="text">Duração:</span>'+
+			'			<span class="duration">'+duration+'</span>'+
+			'		</div>'+
+			'		<div class="price">'+
+			'			<span class="price">'+priceToStr(price)+'</span>'+
+			'		</div>'+
+			'	</div>'+
+			'	<div class="clear"></div>'+
+				stop_text +
+			'</div>'
+		);
+
+
+	}
+	$('.review-flight-total span.price').text(priceToStr(total));
+
+	$('.travelers').html('');
+
+	for (var i = 0; i < adult; i++) {
+		$('.travelers').append(
+			'<div class="input-group input-group-lg">'+
+			'	<span class="input-group-addon"> Adulto '+(i+1)+'</span>'+
+			'	<input name="adult-'+(i+1)+'-name" title="Nome - Campo Obrigatório" type="text" class="half required form-control" placeholder="Nome *">'+
+			'	<input name="adult-'+(i+1)+'-name" title="Identidade ou Passaporte - Campo Obrigatório" type="text" class="half required form-control" placeholder="Identidade ou Passaporte *">'+
+			'</div>'
+		);
+	}
+
+	for (var i = 0; i < kid; i++) {
+		$('.travelers').append(
+			'<div class="input-group input-group-lg">'+
+			'	<span class="input-group-addon"> Criança '+(i+1)+'</span>'+
+			'	<input name="kid-'+(i+1)+'-name" title="Nome - Campo Obrigatório" type="text" class="half required form-control" placeholder="Nome *">'+
+			'	<input name="kid-'+(i+1)+'-name" title="Identidade ou Passaporte - Campo Obrigatório" type="text" class="half required form-control" placeholder="Identidade ou Passaporte *">'+
+			'</div>'
+		);
+	}
+
+	for (var i = 0; i < baby; i++) {
+		$('.travelers').append(
+			'<div class="input-group input-group-lg">'+
+			'	<span class="input-group-addon"> Bebê '+(i+1)+'</span>'+
+			'	<input name="baby-'+(i+1)+'-name" title="Nome - Campo Obrigatório" type="text" class="half required form-control" placeholder="Nome *">'+
+			'	<input name="baby-'+(i+1)+'-name" title="Identidade ou Passaporte - Campo Obrigatório" type="text" class="half required form-control" placeholder="Identidade ou Passaporte *">'+
+			'</div>'
+		);
+	}
+
+
+}
+
+function validatePayment() {
+	var result = true;
+	var field_error = false;
+	$('.payment input.warning').removeClass('warning');
+	var errors = [];
+	$('.payment input.required').each(function(k, element){
+		if (!$(element).val()) {
+			result = false;
+			field_error = true;
+			$(element).addClass('warning');
+		}
+	});
+
+	if (!$('#expireMM').val()){
+		result = false;
+		field_error = true;
+		$('#expireMM').addClass('warning');
+	}
+
+	if (!$('#expireYY').val()){
+		result = false;
+		field_error = true;
+		$('#expireYY').addClass('warning');
+	}
+	
+	if (!result) {
+		if (field_error) {
+			errors.push("Todos os campos com * devem estar preenchidos.");	
+		}
+		$('.payment-alert').html(errors.join("<br>"));
+		$('.payment-alert').show();
+	} else {
+		$('.payment-alert').hide();
+	}
+	return result;
+}
+
 $(document).ready(function(){
 	
     loadMap();
@@ -609,14 +830,19 @@ $(document).ready(function(){
     	}
 
     };
+    useStops = false;
+    adult = 2;
+    kid = 2;
+    baby = 2;
+
 	generateDateSearch()
 	
 
     $('.masthead .nav-tabs a.date-tab').parent().removeClass('disable');
 	$('.masthead .nav-tabs a.ticket-tab').parent().removeClass('disable');
-	
-	setActive('ticket-tab');
-	
+	$('.masthead .nav-tabs a.payment-tab').parent().removeClass('disable');
+	setPaymentTab();
+	setSearchTab();
     $(function() {
     	
 	    $(".searchInput").livequery(function(){
@@ -714,12 +940,12 @@ $(document).ready(function(){
 			$('.searchFlights').append(
 				'<div class="searchFlight">'+
                 '    <div class="searchAirport first">'+
-                	    html +
+                	    html.replace('Destino', 'Origem') +
                 '    </div>'+
                 '    <div class="searchAirport second">'+
                 '    	<input type="text" class="searchInput input-medium"/>'+
                 '      	<div tabindex="0" class="fakeInput input-medium">'+
-                '        	<div class="city">&nbsp;</div>'+
+                '        	<div class="city empty">Destino</div>'+
                 '        	<div class="code">&nbsp;</div>'+
                 '      	</div>'+
                 '    </div>'+
@@ -761,7 +987,7 @@ $(document).ready(function(){
             $('.searchFlights .searchFlight:last-child .fakeInput')[0].focus();
 		});
 
-		$('.masthead .nav-tabs a').click(function(){
+		$('.masthead .nav-tabs a').click(function(e){
 			if ($(this).parent().hasClass('disable')){
 				return false;
 			}
@@ -804,6 +1030,21 @@ $(document).ready(function(){
 					fillDateSearch(current_number);
 				});
 				updateDatePrice();
+				$('.sideinfo .side-travelers').text('');
+				if (useStops) {
+					$('.sideinfo .no-stop').text('');
+				} else {
+					$('.sideinfo .no-stop').text('Sem escala');
+				}
+				if (adult > 0) {
+					$('.sideinfo .adult-travelers').text(adult + ' Adulto' + ((adult > 1)? 's' : ''));
+				}
+				if (kid > 0) {
+					$('.sideinfo .kid-travelers').text(kid + ' Criança' + ((kid > 1)? 's' : ''));
+				}
+				if (baby > 0) {
+					$('.sideinfo .baby-travelers').text(baby + ' Bebê' + ((baby > 1)? 's' : ''));
+				}
 				$('.sideinfo').show();
 				$(".tabs").tabs();
 				$("#ticket-tab .skip:last").html('');
@@ -856,6 +1097,62 @@ $(document).ready(function(){
 			});
 		});
 
+		$('#pay-next').click(function(){
+			if (validatePayment()) {
+				$('.payment').hide();
+				$('.success-payment').show();
+			}
+			
+		});
+
+		$(".edit-flight").livequery(function(){
+			$(this).click(function(){
+				setTicketTab();
+				$('.tabs').tabs( "option", "active", parseInt($(this).attr('href').split('#flight')[1]) ); 
+			})
+		});
+		$(".show-flight").livequery(function(){
+			$(this).click(function(){
+				$('.show-flight').show();
+				$('.flight-img').hide();
+				$(this).hide();
+				$(this).parents('.flight').find('.flight-img').show();
+				codes = {};
+				codes['especial'] = true;
+				codes[$(this).parents('.flight').find('.from .code').text().trim()] = 'gold1.png';
+				codes[$(this).parents('.flight').find('.to .code').text().trim()] = 'gold2.png';
+				
+				var current = 1;
+				$(this).parents('.flight').find('.stops .code').each(function(k, item){
+					codes[$(item).text().trim()] = 'blue'+(current++)+'.png';
+					
+				});
+				reloadMarkers();
+				//$('.tabs').tabs( "option", "active", parseInt($(this).attr('href').split('#flight')[1]) ); 
+			})
+		});
+		
+		$('.erase-search').click(function(){
+			$('input[type="text"]').val('');
+			$('select').val('');
+			$('.payment').show();
+			$('.success-payment').hide();
+			$('.sideinfo').hide();
+			$('.masthead .nav-tabs a.date-tab').parent().addClass('disable');
+			$('.masthead .nav-tabs a.ticket-tab').parent().addClass('disable');
+			$('.masthead .nav-tabs a.payment-tab').parent().addClass('disable');
+			$('.first .fakeInput .city').html('Origem');
+			$('.second .fakeInput .city').html('Destino');
+			$('.first .fakeInput .city').addClass('empty');
+			$('.second .fakeInput .city').addClass('empty');
+			$('#add-roundtrip').css('visibility', 'hidden');
+			$('.searchFlight:not(:first)').remove();
+			$('.searchFlight .removeflight').css('visibility', 'hidden');
+			$('.fakeInput .code').html('&nbsp;');
+			
+			setSearchTab();
+   
+		});
 
 	});
 });

@@ -57,7 +57,7 @@
                     <div class="searchAirport first">
                       <input type="text" class="searchInput input-medium"/>
                       <div tabindex="0" class="fakeInput input-medium">
-                        <div class="city">&nbsp;</div>
+                        <div class="city empty">Origem</div>
                         <div class="code">&nbsp;</div>
                       </div>
                     </div>
@@ -65,7 +65,7 @@
                       <input type="text" class="searchInput input-medium"/>
       
                       <div tabindex="0" class="fakeInput input-medium">
-                        <div class="city">&nbsp;</div>
+                        <div class="city empty">Destino</div>
                         <div class="code">&nbsp;</div>
                       </div>
                     </div>
@@ -87,6 +87,8 @@
                 </a>
                 <div class="clear"></div>
                 <input name="stops" type="checkbox" id="stops"> <label for="stops"> Sem escala </label>
+                <br>
+                
                 <p><a class="btn btn-sm btn-primary" id="search-next" href="#" role="button">
                   Buscar <span class="glyphicon glyphicon-chevron-right"></span>
                 </a></p>
@@ -118,9 +120,94 @@
             <div class="tab-page" id="payment-tab">
               <div class="tab-page-header payment-tab"></div>
               <div class="tab-page-inner">
-                <h1>Pagamento!</h1>
-                <p class="lead">Cras justo odio, dapibus ac facilisis in, egestas eget quam. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet.</p>
-                <p><a class="btn btn-lg btn-success" href="#" role="button">Get started today</a></p>
+                <h3>Revise sua compra!</h3>
+                <div class="review-flights">
+                </div>
+                <div class="review-flight-total">
+                  <div class="text">
+                    Total
+                  </div>
+                  <div class="price"> 
+                    <span class="price"> 300.10  </span>
+                  </div>                 
+                  <div class="clear"></div>
+                </div>
+                <div class="payment">
+                  <h3 id="payposition"> Pagamento </h3>
+                  <div class="alert alert-danger payment-alert"></div>
+                  <span class="warning-message"> Campos com * são obrigatórios </span>
+                  <h4> Passageiros </h4>
+                  <div class="travelers">
+                    <div class="input-group input-group-lg">
+                      <span class="input-group-addon"> Adulto 1</span>
+                      
+                      <input type="text" class="half required form-control" placeholder="Nome *">
+                      <input type="text" class="half required form-control" placeholder="Identidade ou Passaporte *">
+                    </div>
+                  </div>
+
+                  <h4> Cartão </h4>
+                  <div class="card-info">
+                    <div class="input-group input-group-lg">
+                      <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+                      <input name="name" title="Nome que apareçe no cartão - Campo Obrigatório" type="text" class="half required form-control" placeholder="Nome no cartão *">
+                      <input name="email" title="E-mail - Campo Obrigatório" type="text" class="half required form-control" placeholder="E-mail *">
+                    </div>
+                    <div class="input-group input-group-lg">
+                      <span class="input-group-addon"><span class="glyphicon glyphicon-globe"></span></span>
+                      
+                      <input type="text" class="first required form-control" name="address1" title="Primeira linha do endereço - Campo Obrigatório" placeholder="Endereço - Linha 1 *">
+                      <input type="text" name="address2" title="Segunda linha do endereço - Campo Opcional" class="form-control" placeholder="Endereço - Linha 2">
+                      <input type="text" name="zipcode" title="CEP - Campo Obrigatório" class="required quater form-control" placeholder="CEP *">
+                      <input type="text" name="city" title="Cidade - Campo Obrigatório" class="required quater form-control" placeholder="Cidade *">
+                      
+                      <input type="text" name="country" title="País - Campo Obrigatório" class="last required half form-control" placeholder="País *">
+                      
+                    </div>
+                    <div class="input-group input-group-lg">
+                      <span class="input-group-addon"><span class="glyphicon glyphicon-credit-card"></span></span>
+                      <input type="text" name="number" title="Número do cartão - Campo Obrigatório" class="required seventy form-control" placeholder="Número do cartão *">
+                      <input type="text" name="code" title="Código que aparece atrás do cartão - Campo Obrigatório" class="required passcode form-control" placeholder="Código *">
+                      <span class="input-group-addon expire">
+                        Vencimento *
+                     <select name='expireMM' title="Mês de vencimento - Campo Obrigatório" class="required" id='expireMM'>
+                        <option value=''>Mês</option>
+                        <option value='01'>Jan</option>
+                        <option value='02'>Fev</option>
+                        <option value='03'>Mar</option>
+                        <option value='04'>Abr</option>
+                        <option value='05'>Mai</option>
+                        <option value='06'>Jun</option>
+                        <option value='07'>Jul</option>
+                        <option value='08'>Ago</option>
+                        <option value='09'>Set</option>
+                        <option value='10'>Out</option>
+                        <option value='11'>Nov</option>
+                        <option value='12'>Dez</option>
+                      </select> 
+                      <select name='expireYY' title="Ano de vencimento - Campo Obrigatório" class="required" id='expireYY'>
+                          <option value=''>Ano</option>
+                          <option value='14'>14</option>
+                          <option value='15'>15</option>
+                          <option value='16'>16</option>
+                          <option value='17'>17</option>
+                          <option value='18'>18</option>
+                      </select>  
+                      </span>
+                      <!-- <input type="text" class="required fifth1 form-control" placeholder="Vecimento *"> -->
+                    </div>
+                  </div>
+
+                  <p><a class="btn btn-sm btn-primary" id="pay-next" href="#payposition" role="button">
+                  Pagar</span>
+                  </a></p>
+                </div>
+                <div class="success-payment">
+                  <span> Seu pagamento foi realizado com sucesso! <br> Você receberá um email com suas passagens em breve! </span>
+                  <p class="middle"><a class="erase-search btn btn-lg btn-warning" href="#" role="button">
+                  Realizar nova busca</span>
+                  </a></p>
+                </div>
               </div>
             </div>
           </div>
@@ -133,11 +220,20 @@
             </div>
           </div>
           <div class="sideinfo">
-            <h3>Voos</h3>
+            <h4>Passageiros</h4>
+            <div class="adult-travelers side-travelers"></div>
+            <div class="kid-travelers side-travelers"></div>
+            <div class="baby-travelers side-travelers"></div>
+            
+            <h4>Voos</h4>
+            <div class="no-stop"></div>
             <ul>
             </ul>
-            <h3>Preço Total</h3>
+            <h4>Preço Total</h4>
             <span class="total-price"> 0 </span>
+            <p class="middle"><a class="erase-search btn btn-lg btn-warning" href="#" role="button">
+                  Limpar busca</span>
+                  </a></p>
           </div>
         </div>
       </div>
