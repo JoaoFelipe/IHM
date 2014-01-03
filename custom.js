@@ -79,11 +79,8 @@ function setPaymentTab() {
 
 function reloadSearchCodes() {
 	codes = {};
-	$('.fakeInput .code').each(function(k, element){
-		var lis = $(element).text().split(', ');
-		for (var code in lis) {
-			codes[lis[code]] = null;
-		}
+	$('.searchFlight button .selectcode').each(function(k, item){
+		codes[$(item).text()] = null;
 	});
 }
 
@@ -1327,16 +1324,24 @@ $(document).ready(function(){
 			$(this).addClass('done');
 			var waiting = $(this).siblings('.waiting');
 			$(this).multiselect({
-			   header: false,
-			   selectedList: 4,
-			   click: function(e){
-			       if( $(this).multiselect("widget").find("input:checked").length > 4 ){
-			          return false;
-			       } 
-			   }
+			    header: false,
+			    close: function(){
+			    	reloadSearchCodes();
+			    	reloadMarkers();
+ 			    },
+			    selectedList: 4,
+			    click: function(e){
+			        if( $(this).multiselect("widget").find("input:checked").length > 4 ){
+			            return false;
+			        } 
+			        reloadSearchCodes();
+			    	reloadMarkers();
+			    }
 			});
 			waiting.hide();
 			waiting.removeClass('waiting');
+			reloadSearchCodes();
+	    	reloadMarkers();
 			
 		});
 
