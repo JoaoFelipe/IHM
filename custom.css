@@ -162,11 +162,14 @@ li:not(.active):not(.disable) a.payment-tab:hover {
 	top: -5px;
 	display: none;
 	border-radius: 5px;
-	height: 51px !important;
+	height: 50px !important;
+	font-size: 18px;
+	margin-top: 1px;
 }
 
 input.datepicker {
 	height: 51px !important;
+	font-size: 18px;
 }
 
 .searchAirport .fakeInput {
@@ -178,7 +181,18 @@ input.datepicker {
 	border-radius: 5px;
 	line-height: 1;
 	padding: 7px;
+	position: relative;
+	top: 5px;
 }
+
+.searchAirport .fakeInput.filled {
+	top: 5px;
+}
+
+.searchAirport .fakeInput:not(.filled) {
+	
+}
+
 
 .searchAirport .fakeInput:hover {
 	cursor: text;
@@ -187,7 +201,7 @@ input.datepicker {
 .searchAirport .fakeInput .city {
 	font-size: 18px;
 }
-.searchAirport .fakeInput .code {
+.searchAirport .fakeInput .second_line {
 	height: 12px;
 	font-size: 12px;
 	display: block;
@@ -195,8 +209,101 @@ input.datepicker {
 	text-align: right;
 }
 
+.fakeInput .lat, .fakeInput .long {
+	display: none;
+}
+
+.airport_item .lat, .airport_item .long {
+	display: none;
+}
+
+.second_line .code.not(.waiting) {
+	display: none;
+}
+
+.second_line .option {
+	display: none;
+}
+
+.selecticon {
+	float: right;
+}
+
+.second_line button {
+	width: 100% !important;
+	height: 20px;
+	color: gray;
+	border: none;
+	background: none;
+}
+
+.second_line button:hover {
+	color: blue;
+}
+
+.second_line select {
+	display: none;
+}
+
 .searchFlight {
 	display: block;
+}
+.ui-multiselect { height:25px; overflow-x:hidden; padding:2px 0 2px 4px; text-align:left }
+
+.selectline1 {
+	margin-left: 5px;
+}
+
+.selectcode, .selectdistance, .selectname {
+	display: inline-block;
+}
+
+.selectname:before {
+	content: "-";
+	margin: 0 5px;
+}
+
+.selectdistance {
+	color: gray;
+} 
+
+.ui-multiselect-menu {
+	width: 510px !important;
+}
+
+.ui-multiselect-checkboxes input {
+	margin-left: 5px;
+	/*width: 5%;*/
+}
+
+.ui-multiselect-checkboxes input:hover {
+	border: none
+}
+
+.ui-multiselect-checkboxes span {
+	display: inline-block;
+	font-weight: normal;
+	font-size: 12px;
+	font-family: Verdana, Arial, sans-serif;
+	width: 95%;
+}
+
+button .selectdistance, button .selectname {
+	display: none;
+}
+
+
+button .selectline1 {
+	margin-left: 0;
+	display: inline-block;
+}
+
+button .selectline2 {
+	display: none;
+}
+
+.selectdistance {
+	float: right;
 }
 
 .datepicker {
@@ -1095,10 +1202,3 @@ label.check:hover, input[type="checkbox"]:hover {
 	min-width: 600px;
 }
 
-.fakeInput .lat, .fakeInput .long {
-	display: none;
-}
-
-.airport_item .lat, .airport_item .long {
-	display: none;
-}

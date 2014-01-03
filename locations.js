@@ -560,3 +560,27 @@ function dateToFullStr(date) {
 		+ full_months[date.getMonth()] + ' de '
 		+ (date.getYear() + 1900);
 }
+
+function sortedAirports(lat, lng) {
+
+	var curAirports = [];
+	for(var key in airports) {
+    	curAirports.push(airports[key]);
+	}
+	curAirports.sort(function(a, b){
+		var d1 = getDistanceFromLatLonInKm(a[3],a[4], lat, lng);
+		var d2 = getDistanceFromLatLonInKm(b[3],b[4], lat, lng);
+		return d1 - d2;
+	});
+	return curAirports;
+}
+
+function distanceToStr(dist) {
+	return dist.toFixed(1);
+}
+
+function intersects(a, b) {
+	return a.filter(function(n) {
+    	return b.indexOf(n) != -1
+	}).length > 0;
+}

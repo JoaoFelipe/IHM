@@ -273,6 +273,8 @@ function validateSearch() {
 	var field_error = false;
 	var date_error = false;
 	var last_date = null;
+	var intersection_error = false;
+	var select_error = false;
 	$('.warning').removeClass('warning');
 	$('.searchFlights input.datepicker').each(function(k, element){
 		if (!$(element).val()) {
@@ -292,14 +294,44 @@ function validateSearch() {
 			last_date = new_date;
 		}
 	});
-	$('.searchFlights .fakeInput .code').each(function(k, element){
-		if (!$(element).text().replace(/^\s+|\s+$/g, '')) {
+	$('.searchFlights .fakeInput').each(function(k, element){
+		if (!$(element).find('.code').text().replace(/^\s+|\s+$/g, '')) {
 			result = false;
 			field_error = true;
-			$(element).parent().addClass('warning');
+			$(element).find('.code').parent().addClass('warning');
 		}
 	});
+
+	$('.searchFlights .searchFlight').each(function(k, item){
+		var first_code = [];
+		$(item).find('.first button .selectcode').each(function(k, item){
+			first_code.push($(item).text());
+		});
+		var second_code = [];
+		$(item).find('.second button .selectcode').each(function(k, item){
+			second_code.push($(item).text());
+		});
+		if (first_code.length == 0) {
+			$(item).find('.first .fakeInput').addClass('warning');
+			select_error = true;
+			result = false;
+		}
+		if (second_code.length == 0) {
+			$(item).find('.second .fakeInput').addClass('warning');
+			select_error = true;
+			result = false;
+		}
+		if (intersects(first_code, second_code)) {
+			$(item).find('.first .fakeInput').addClass('warning');
+			$(item).find('.second .fakeInput').addClass('warning');
+			intersection_error = true;
+			result = false;
+		}
+
+	});
 	var errors = [];
+	
+
 	if (parseInt($('#babyspinner').val()) > 0 && parseInt($('#adultspinner').val()) == 0) {
 		result = false;
 		$('#babyspinner').addClass('warning');
@@ -323,6 +355,12 @@ function validateSearch() {
 	if (!result) {
 		if (date_error) {
 			errors.push("Os voos devem estar ordenados por data.");
+		}
+		if (intersection_error) {
+			errors.push("Os voos não podem ir de um aeroporto para ele mesmo.");
+		}
+		if (select_error) {
+			errors.push("Todos os voos precisam ter algum aeroporto selecionado.");
 		}
 		if (field_error) {
 			errors.push("Todos os campos devem estar preenchidos.");	
@@ -906,10 +944,37 @@ $(document).ready(function(){
 		         	var city = item.item.city;
 		         	if (city.length > 18) {
 		         		city = city.substring(0, 15) + '...';
+
 		         	}
+		         	var sAirports = sortedAirports(item.item.lat, item.item.lng);
+		         	var airportsOptions="";
+		         	var airportsOptionsHTML="";
+		         	for (var airporti in sAirports){
+		         		var airport = sAirports[airporti];
+		         		airportsOptions += '		<option value="'+airport[0]+'" '+(($.inArray(airport[0], item.item.codes) > -1)? 'selected' : '')+'>'+airport[0]+'</option>'
+		         		airportsOptionsHTML += 
+			         		'	<div class="option" data-value="'+airport[0]+'">'+
+		                    '		<div class="selectline1">'+
+		                    '			<div class="selectcode">'+airport[0]+'</div>'+
+		                    '			<div class="selectname">'+airport[1]+'</div>'+
+		                    '		</div>'+
+		                    '		<div class="selectline2">'+
+		                    ' 			<div class="selectdistance">'+distanceToStr(getDistanceFromLatLonInKm(airport[3], airport[4], item.item.lat, item.item.lng))+' km</div>'+
+		                    '		</div>'+
+		                    '	</div>';
+		         	}
+		         	
+					fakeInput.addClass('filled');	         	
 		         	fakeInput.html(
 		         		'<div class="city">'+city+'</div>' +
-	                    '<div class="code">'+((item.item.codes.length > 0) ? item.item.codes.join(', ') : "Nenhum aeroporto selecionado")+'</div>'+
+	                    '<div class="second_line">' +
+	                    '	<div class="code waiting">'+((item.item.codes.length > 0) ? item.item.codes.join(', ') : "Nenhum aeroporto selecionado")+'</div>'+
+	                    //'	<a href="#" class="selectairports" title="Escolher aeroportos"><span class="selectairports glyphicon glyphicon-fullscreen"></span></a>'+
+	                    '	<select multiple>'+
+		                    	airportsOptions+
+	                    '	</select>'+
+	                    	airportsOptionsHTML+ 
+	                    '</div>'+
 	                    '<div class="lat">'+item.item.lat+'</div>'+
 	                    '<div class="long">'+item.item.lng+'</div>'
 	                );
@@ -932,17 +997,25 @@ $(document).ready(function(){
 	    });
 
 		$(".fakeInput").livequery(function(){
-			var autocompl = function(){
-				var searchInput = $(this).parent().children(".searchInput");
+			var autocompl = function(t){
+				var searchInput = $(t).parent().children(".searchInput");
 				
 				searchInput.show();
-				$(this).hide();
+				$(t).hide();
 				searchInput.focus();
 				searchInput.autocomplete("search");
 			};
 
-			$(this).click(autocompl);
+			$(this).on('click', function(e) { 
+			    if( $(e.target).hasClass('selectairports') ) {
+			   		return;
+			    } 
+			    autocompl(this);
+			});
 			$(this).bind('keypress', function(e) {
+				if( $(e.target).hasClass('selectairports') ) {
+			   		return;
+			    } 
 			    var searchInput = $(this).parent().children(".searchInput");
 			
 				searchInput.show();
@@ -986,7 +1059,12 @@ $(document).ready(function(){
 		})
 
 		$("#add-flight").click(function(){
+			$('.searchFlights .searchFlight:last-child .second option').attr('selected', false);
+			$('.searchFlights .searchFlight:last-child .second button .selectcode').each(function(i, el) {
+			    $('.searchFlights .searchFlight:last-child .second option[value="'+$(el).text().trim()+'"]').attr('selected', true);
+			});
 			var html = $('.searchFlights .searchFlight:last-child .second').html();
+			
 			$('.searchFlights').append(
 				'<div class="searchFlight">'+
                 '    <div class="searchAirport first">'+
@@ -1008,20 +1086,30 @@ $(document).ready(function(){
                 '    </a>'+
                 '</div>'
             );
+			$('.searchFlights').find('button:last').remove();
+			$('.searchFlights').find('select:last').removeClass('done');
 			showRemoveFlight();
             $('.searchFlights .searchFlight:last-child .fakeInput')[0].focus();
 		});
 
 		$("#add-roundtrip").click(function(){
+			$('.searchFlights .searchFlight:first-child .first option').attr('selected', false);
+			$('.searchFlights .searchFlight:last-child .second option').attr('selected', false);
+			$('.searchFlights .searchFlight:last-child .second button .selectcode').each(function(i, el) {
+			    $('.searchFlights .searchFlight:last-child .second option[value="'+$(el).text().trim()+'"]').attr('selected', true);
+			});
+			$('.searchFlights .searchFlight:first-child .first button .selectcode').each(function(i, el) {
+			    $('.searchFlights .searchFlight:first-child .first option[value="'+$(el).text().trim()+'"]').attr('selected', true);
+			});
 			var first = $('.searchFlights .searchFlight:last-child .second').html();
 			var second = $('.searchFlights .searchFlight:first-child .first').html();
 			$('.searchFlights').append(
 				'<div class="searchFlight">'+
                 '    <div class="searchAirport first">'+
-                	    first +
+                	    first.replace('Destino', 'Origem') +
                 '    </div>'+
                 '    <div class="searchAirport second">'+
-                    	second +
+                    	second.replace('Origem', 'Destino') +
                 '    </div>'+
                 '    <div class="selectdate">'+
                 '      	<input type="text" class="datepicker" placeholder="Data">'+
@@ -1032,6 +1120,10 @@ $(document).ready(function(){
                 '    </a>'+
                 '</div>'
             );
+			$('.searchFlights').find('.first button:last').remove();
+			$('.searchFlights').find('.first select:last').removeClass('done');
+			$('.searchFlights').find('.second button:last').remove();
+			$('.searchFlights').find('.second select:last').removeClass('done');
 			showRemoveFlight();
 			showAddRoundTrip();
             $('.searchFlights .searchFlight:last-child .fakeInput')[0].focus();
@@ -1067,16 +1159,22 @@ $(document).ready(function(){
 					var current_number = number++;
 
 					var first_city = $(item).find('.first .city').text();
-					var first_code = $(item).find('.first .code').text();
+					var first_code = [];
+					$(item).find('.first button .selectcode').each(function(k, item){
+						first_code.push($(item).text());
+					});
 					var second_city = $(item).find('.second .city').text();
-					var second_code = $(item).find('.second .code').text();
+					var second_code = [];
+					$(item).find('.second button .selectcode').each(function(k, item){
+						second_code.push($(item).text());
+					});
 					var date = $(item).find('.datepicker').val();
 					
 					var this_flight = {
 						'from_city': first_city,
 						'to_city': second_city,
-						'from_code': first_code.split(', '),
-						'to_code': second_code.split(', '),
+						'from_code': first_code,
+						'to_code': second_code,
 						'date': date		
 					};
 
@@ -1207,7 +1305,14 @@ $(document).ready(function(){
 			$('#add-roundtrip').css('visibility', 'hidden');
 			$('.searchFlight:not(:first)').remove();
 			$('.searchFlight .removeflight').css('visibility', 'hidden');
-			$('.fakeInput .code').html('&nbsp;');
+			$('.first .fakeInput').html(
+				'<div class="city empty">Origem</div>'+
+				'<div class="code">&nbsp;</div>'
+			);
+			$('.second .fakeInput').html(
+				'<div class="city empty">Destino</div>'+
+				'<div class="code">&nbsp;</div>'
+			);
 			//$('#adultspinner').val('1');
 			//$('#kidspinner').val('0');
 			//$('#babyspinner').val('0');
@@ -1218,10 +1323,28 @@ $(document).ready(function(){
    
 		});
 
+		$(".fakeInput .second_line select:not(.done)").livequery(function(){
+			$(this).addClass('done');
+			var waiting = $(this).siblings('.waiting');
+			$(this).multiselect({
+			   header: false,
+			   selectedList: 4,
+			   click: function(e){
+			       if( $(this).multiselect("widget").find("input:checked").length > 4 ){
+			          return false;
+			       } 
+			   }
+			});
+			waiting.hide();
+			waiting.removeClass('waiting');
+			
+		});
+
+
 		$('#cardnumber').mask("9999 9999 9999 9999");
 		
 	});
 
-	//testPayment();
-	//setSearchTab();
+	testPayment();
+	setSearchTab();
 });
