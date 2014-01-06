@@ -83,6 +83,7 @@ airports = {
 };
 
 locations = {
+	'Rua Vapabusso, São Paulo' : ['Rua Vapabusso, São Paulo',  -23.63295, -46.66454],
 	'Cruzeiro do Sul'      : ['Cruzeiro do Sul', -7.6296, -72.6751],
 	'Rio Branco'           : ['Rio Branco', -9.973, -67.819],
 	'Maceió'               : ['Maceió', -9.516, -35.693],

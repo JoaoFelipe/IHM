@@ -1,6 +1,73 @@
 var proj, map, markers, selectedFlights, useStops=true, codes = {};
 var baby = 0, kid = 0, adult = 1;
 
+test4 = test3 = test1 = function() {
+	$('.erase-search').click();
+}
+
+function test2() {
+	selectedFlights = {
+    	0 : {
+    		'from_city': 'Rio de Janeiro',
+			'to_city': 'São Paulo',
+			'from_code': ['SDU', 'GIG', 'ICAO'],
+			'to_code': ['MAE', 'GRU', 'CGH'],
+			'date': '02/02/2014'
+    	}, 
+    	1 : {
+			'from_city': 'São Paulo',
+    		'to_city': 'Rio de Janeiro',
+			'from_code': ['MAE', 'GRU', 'CGH'],
+			'to_code': ['SDU', 'GIG', 'ICAO'],
+			'date': '09/02/2014'
+    	}
+
+    };
+    useStops = false;
+    adult = 1;
+    kid = 0;
+    baby = 0;
+
+	generateDateSearch()
+	
+
+    $('.masthead .nav-tabs a.date-tab').parent().removeClass('disable');
+	$('.masthead .nav-tabs a.ticket-tab').parent().removeClass('disable');
+	$('.masthead .nav-tabs a.payment-tab').parent().removeClass('disable');
+	setPaymentTab();
+
+	$('.payment').hide();
+	$('.success-payment').show();
+}
+
+function test5() {
+	selectedFlights = {
+    	0 : {
+    		'from_city': 'Brasília',
+			'to_city': 'São Paulo',
+			'from_code': ['BSB'],
+			'to_code': ['MAE', 'GRU', 'CGH'],
+			'date': '08/02/2014',
+    	}, 
+    	
+
+    };
+    useStops = true;
+    adult = 1;
+    kid = 0;
+    baby = 0;
+
+	generateDateSearch()
+	
+
+    $('.masthead .nav-tabs a.date-tab').parent().removeClass('disable');
+	$('.masthead .nav-tabs a.ticket-tab').parent().removeClass('disable');
+	$('.masthead .nav-tabs a.payment-tab').parent().removeClass('disable');
+	setTicketTab();
+	$('tr:nth-of-type(5) td').click();
+	setPaymentTab();
+}
+
 
 function testPayment() {
 	selectedFlights = {
@@ -1350,6 +1417,5 @@ $(document).ready(function(){
 		
 	});
 
-	testPayment();
-	setSearchTab();
+
 });
